@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: unicome-proxy
+server:
+  port: 9991
+
+#Zuul
+zuul:
+  add-host-header: true # 页面重定向时host发生改变
+  ignoredServices: '*'
+  routes:
+    unicome-oauth:
+      sensitiveHeaders:
+      custom-sensitive-headers: true
+      stripPrefix: false
+      path: /oas/**
+      serviveId: unicome-oauth
+
+# Security
+security:
+  ignored: /favicon.ico,/js/**,/css/**,/webjars/**
+  basic:
+    enabled: false
+  oauth2:
+    sso:
+      loginPath: /login
+    client:
+      accessTokenUri: http://unicome-oauth/oas/oauth/token
+      userAuthorizationUri: /oas/oauth/authorize
+      clientId: admin
+      clientSecret: admin
+    resource:
+      userInfoUri: http://unicome-oauth/oas/oauth/user
+
+#Eureka
+eureka:
+  instance:
+#    prefer-ip-address: true
+    hostname: localhost
+    port: 8761
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true # 向服务中心注册自己
+    fetch-registry: true # 检索服务
+
+logging:
+  level.org.springframework.security: DEBUG
+
+#debug: true

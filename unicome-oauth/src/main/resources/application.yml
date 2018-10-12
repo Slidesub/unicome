@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: unicome-oauth
+  mvc:
+    static-path-pattern: /public/**
+  messages:
+    basename: i18n/messages
+    cache-seconds: 3600
+    encoding: UTF-8
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+  devtools:
+    restart:
+      enable: false # 关闭自动重启
+    livereload:
+      enable: true # 开启热加载
+
+server:
+  port: 9992
+  servlet:
+    context-path: /oas
+  use-forward-headers: true
+
+eureka:
+  instance:
+#    prefer-ip-address: true
+    hostname: localhost
+    port: 8761
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true # 向服务中心注册自己
+    fetch-registry: true # 检索服务
+
+security:
+  basic:
+    enabled: true
+#  sso:
+#    loginPath: /login
+  ignored: /css/**,/js/**,/favicon.ico,/webjars/**
+
+logging:
+  level.org.springframework.security: DEBUG
