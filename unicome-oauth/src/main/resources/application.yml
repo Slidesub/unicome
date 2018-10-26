@@ -1,3 +1,9 @@
+server:
+  port: 9992
+  servlet:
+    context-path: /oas
+  use-forward-headers: true
+
 spring:
   application:
     name: unicome-oauth
@@ -19,12 +25,9 @@ spring:
       enable: false # 关闭自动重启
     livereload:
       enable: true # 开启热加载
-
-server:
-  port: 9992
-  servlet:
-    context-path: /oas
-  use-forward-headers: true
+  data:
+    mongodb:
+      uri: mongodb://52.69.9.211:27017/unicome_oauth
 
 eureka:
   instance:
@@ -39,10 +42,13 @@ eureka:
 
 security:
   basic:
-    enabled: true
-#  sso:
-#    loginPath: /login
+    eabled: false # 关闭http basic认证
+  sso: #  sso单点登陆
+    loginPath: /login
   ignored: /css/**,/js/**,/favicon.ico,/webjars/**
+
+# 自定义
+
 
 logging:
   level.org.springframework.security: DEBUG

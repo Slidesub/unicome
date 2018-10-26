@@ -1,16 +1,15 @@
 package org.unicome.oauth.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.unicome.oauth.security.MobilePasswordAuthenticationProvider;
 
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -43,13 +42,22 @@ public class WebSecurityConfig {
      * Form Login
      */
     public static class FormLoginWebSecurityConfig extends  WebSecurityConfigurerAdapter {
+        @Autowired
+        MobilePasswordAuthenticationProvider mobilePasswordAuthenticationProvider;
+
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http
                 .authorizeRequests()
+                    .antMatchers("/oauth/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
-            .formLogin();
+                .formLogin();
+        }
+        @Override
+        public void configure(AuthenticationManagerBuilder auth) throws Exception {
+            // 增加自定义的provider
+            auth.authenticationProvider(mobilePasswordAuthenticationProvider);
         }
         @Bean
         public UserDetailsService userDetailsService() {
@@ -58,6 +66,7 @@ public class WebSecurityConfig {
             manager.createUser(users.username("admin").password("admin").roles("USER","ADMIN").build());
             return manager;
         }
+
     }
 
 
