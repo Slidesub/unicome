@@ -1,6 +1,7 @@
-package org.unicome.oauth.domain;
+package org.unicome.oauth.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 @Data
 @Document(collection = "client")
-public class Client implements ClientDetails, Serializable {
+public class Client extends Base implements ClientDetails, Serializable {
 
     // 默认字段
     private String clientId;
@@ -27,9 +28,10 @@ public class Client implements ClientDetails, Serializable {
     private Integer refreshTokenValiditySeconds;
     private Map<String, Object> additionalInformation;
     // 自定义字段
+    @Id
+    private String id;
     private String clientName;
     private String description;
-
 
     @Override
     public boolean isSecretRequired() {

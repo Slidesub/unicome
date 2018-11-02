@@ -27,28 +27,27 @@ spring:
       enable: true # 开启热加载
   data:
     mongodb:
-      uri: mongodb://52.69.9.211:27017/unicome_oauth
+      uri: mongodb://52.69.9.211:27017/unicome_auth
 
-eureka:
-  instance:
-#    prefer-ip-address: true
-    hostname: localhost
-    port: 8761
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true # 向服务中心注册自己
-    fetch-registry: true # 检索服务
+#eureka:
+#  instance:
+##    prefer-ip-address: true
+#    hostname: localhost
+#    port: 8761
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#    register-with-eureka: true # 向服务中心注册自己
+#    fetch-registry: true # 检索服务
 
 security:
   basic:
-    eabled: false # 关闭http basic认证
-  sso: #  sso单点登陆
-    loginPath: /login
+    enabled: true # 关闭http basic认证
+#  sso: #  sso单点登陆
+#    loginPath: /login
   ignored: /css/**,/js/**,/favicon.ico,/webjars/**
 
 # 自定义
-
 
 logging:
   level.org.springframework.security: DEBUG

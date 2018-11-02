@@ -1,4 +1,4 @@
-package org.unicome.oauth.security;
+package org.unicome.oauth.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
+import org.unicome.oauth.security.MobilePasswordAuthenticationToken;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class MobilePasswordAuthenticationFilter extends AbstractAuthenticationPr
         String mobile = obtainPatameter(request, mobileParameter);
         String password = obtainPatameter(request, passwordParameter);
 
-        MobilePasswordAuthenticationToken authToken = new MobilePasswordAuthenticationToken(mobile, password);
+        MobilePasswordAuthenticationToken authToken = new MobilePasswordAuthenticationToken(mobile.trim(), password);
         setDetails(request, authToken);
 
         return this.getAuthenticationManager().authenticate(authToken);

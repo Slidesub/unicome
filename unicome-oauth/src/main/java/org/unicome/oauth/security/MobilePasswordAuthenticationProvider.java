@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.unicome.oauth.service.UserService;
@@ -25,6 +26,8 @@ public class MobilePasswordAuthenticationProvider implements AuthenticationProvi
 
     @Autowired
     private UserService userService;
+
+    private PasswordEncoder passwordEncoder;
 
     protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
     private UserCache userCache = new NullUserCache();
@@ -46,17 +49,17 @@ public class MobilePasswordAuthenticationProvider implements AuthenticationProvi
 
         if (user == null) {
             cacheWasUsed = false;
-
             try {
                 user = retrieveUser(mobile);
-                return new MobilePasswordAuthenticationToken(user, "password", user.getAuthorities());
             }
             catch (Exception notFound) {
                 log.debug("User '" + mobile + "' not found");
             }
         }
 
-        return null;
+        MobilePasswordAuthenticationToken result = new MobilePasswordAuthenticationToken(mobile, authentication.getCredentials(), user.getAuthorities());
+        result.setDetails(authentication.getDetails());
+        return result;
     }
 
     @Override
