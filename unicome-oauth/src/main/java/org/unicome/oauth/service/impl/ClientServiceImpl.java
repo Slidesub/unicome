@@ -4,13 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.unicome.oauth.entity.Client;
 import org.unicome.oauth.repository.ClientRepository;
 import org.unicome.oauth.service.ClientService;
 
 @Slf4j
-//@Service(value = "clientService")
+@Service(value = "clientService")
 public class ClientServiceImpl implements ClientService {
     @Autowired
     ClientRepository clientRepository;

@@ -10,8 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>unicome-eureka</module>
         <module>unicome-proxy</module>
-         <module>unicome-oauth</module>
+        <module>unicome-oauth</module>
     </modules>
 
     <properties>

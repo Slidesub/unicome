@@ -21,6 +21,7 @@ security:
   ignored: /favicon.ico,/js/**,/css/**,/webjars/**
   basic:
     enabled: false
+  # Security OAuth2
   oauth2:
     sso:
       loginPath: /login
@@ -41,8 +42,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true # 向服务中心注册自己
-    fetch-registry: true # 检索服务
+#    register-with-eureka: true # 向服务中心注册自己
+#    fetch-registry: true # 检索服务
 
 logging:
   level.org.springframework.security: DEBUG
