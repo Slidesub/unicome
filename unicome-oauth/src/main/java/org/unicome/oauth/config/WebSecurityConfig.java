@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,7 +25,6 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter {
     @Autowired
     UsernamePasswordAuthenticationProvider usernamePasswordAuthenticationProvider;
 
-
     @Autowired
     @Qualifier("userService")
     UserDetailsService userDetailsService;
@@ -32,11 +32,13 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/oauth/**", "/login/mobile").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin();
+            .authorizeRequests()
+                .antMatchers("/oauth/**", "/login/mobile").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .and()
+            .httpBasic();
 
         http.addFilterAfter(mobilePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
@@ -55,6 +57,15 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter {
         MobilePasswordAuthenticationFilter filter = new MobilePasswordAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManager());
         return filter;
+    }
+
+    /**
+     * expose the AuthenticationManager from configure(AuthenticationManagerBuilder) as a bean
+      */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     /**

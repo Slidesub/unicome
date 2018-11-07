@@ -132,3 +132,25 @@ CREATE TABLE acl_entry (
     CONSTRAINT fk_acl_entry_object FOREIGN KEY (acl_object_identity) REFERENCES acl_object_identity (id),
     CONSTRAINT fk_acl_entry_acl FOREIGN KEY (sid) REFERENCES acl_sid (id)
 ) ENGINE=InnoDB;
+
+
+# Request
+```
+// authorization_code
+// code
+http://localhost:9992/oas/oauth/authorize?client_id=admin&redirect_uri=http%3A%2F%2Flocalhost%3A9992%2Foas%2Flogin&response_type=code&state=cSTsdK
+// code->token
+http://localhost:9992/oas/oauth/token?client_id=admin&client_secret=123456&redirect_uri=http%3A%2F%2Flocalhost%3A9992%2Foas%2Flogin&grant_type=authorization_code&code=ugMZFY&state=ZGFelm
+
+// implicit, 浏览器中访问
+http://localhost:9992/oas/oauth/authorize?client_id=admin&redirect_uri=http%3A%2F%2Flocalhost%3A9992%2Foas%2Flogin&response_type=token
+
+// password
+http://localhost:9992/oas/oauth/token?username=test&password=test&client_id=admin&client_secret=123456&grant_type=password
+
+// client_credentials
+http://localhost:9992/oas/oauth/token?client_id=admin&client_secret=123456&grant_type=client_credentials
+
+// refresh_token
+http://localhost:9992/oas/oauth/token?client_id=admin&client_secret=123456&grant_type=refresh_token
+```
