@@ -154,4 +154,11 @@ db.resource.insertMany([
     "clientIds": ["OauthAdminServerClientId"]
 }
 ])
+
+---cms
+use unicome_cms
+
+db.createCollection("article")
+db.createCollection("file_entry")
+db.createCollection("tag")
 ```
