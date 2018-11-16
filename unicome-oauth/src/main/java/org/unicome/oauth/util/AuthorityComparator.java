@@ -11,8 +11,7 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class AuthorityComparator implements Comparator<GrantedAuthority>,
-        Serializable {
+public class AuthorityComparator implements Comparator<GrantedAuthority>, Serializable {
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
     public int compare(GrantedAuthority g1, GrantedAuthority g2) {

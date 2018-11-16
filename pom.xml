@@ -13,6 +13,7 @@
         <module>unicome-eureka</module>
         <module>unicome-proxy</module>
         <module>unicome-oauth</module>
+        <!--<module>unicome-cms</module>-->
     </modules>
 
     <properties>
