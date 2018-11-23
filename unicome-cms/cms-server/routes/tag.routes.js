@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const TagHandler = require('../handlers/tag.handler')
 
-router.prefix('/tags')
+router.prefix('/api/tags')
 
 router.post('/', async (ctx, next) => {
     const result = await TagHandler.add(ctx)

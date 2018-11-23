@@ -1,11 +1,11 @@
-import axios from 'axios';
+import instance from './fetch';
 
 export default {
     install(Vue: any) {
-        Vue.prototype.$http = axios;
-        Vue.http = axios;
+        Vue.prototype.$http = instance;
+        Vue.http = instance;
     },
-    $http: axios,
+    $http: instance,
 };
 
-export const $http = axios;
+export const $http = instance;

@@ -11,7 +11,8 @@ module.exports = {
             { from: /\/blog/, to: '/blog.html' },
             { from: /\//, to: '/index.html' }
         ]
-    }
+    },
+    proxy:  'http://127.0.0.1:3000'
 },
   pages: {
     index: {

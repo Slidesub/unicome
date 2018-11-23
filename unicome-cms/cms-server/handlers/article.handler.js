@@ -65,7 +65,7 @@ class ArticleHandler {
         } else {
             articles = await Article.find()
         }
-        return { code: 200, msg: 'SUCCESS', data: { articles, count } }
+        return { articles, count }
     }
 
 }

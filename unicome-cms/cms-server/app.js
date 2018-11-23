@@ -7,7 +7,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const mongoose = require('mongoose')
-const index = require('./routes/index')
+const routes = require('./routes')
 const database = require('./config').mongoose.database
 
 const historyApiFallback  = require('koa2-connect-history-api-fallback')
@@ -61,7 +61,7 @@ app.use(async (ctx, next) => {
 mongoose.connect(database, { useNewUrlParser: true, useCreateIndex: true })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
+app.use(routes.routes(), routes.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

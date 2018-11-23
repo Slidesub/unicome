@@ -1,7 +1,7 @@
 const router = require('koa-router')()
-const UploadHandler = require('../handlers/upload.handler')
+const FileEntrytHandler = require('../handlers/fileEntry.handler')
 
-router.prefix('/entities')
+router.prefix('/api/entities')
 
 router.post('/', async (ctx, next) => {
     const result = await ArticleHandler.add(ctx)
@@ -29,7 +29,7 @@ router.get('/', async (ctx, next) => {
 })
 
 router.post('/upload', async (ctx, next) => {
-    const result = await UploadHandler.upload(ctx);
+    const result = await FileEntrytHandler.upload(ctx);
     ctx.body = result;
 })
 

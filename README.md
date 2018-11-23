@@ -154,3 +154,142 @@ http://localhost:9992/oas/oauth/token?client_id=admin&client_secret=123456&grant
 // refresh_token
 http://localhost:9992/oas/oauth/token?client_id=admin&client_secret=123456&grant_type=refresh_token
 ```
+
+---
+
+# 设计模式
+> 设计模式大体可分为三类：
+> 1. 创建者模式（5种）： 单例、工厂方法、抽象工厂、建造者、原型。
+> 2. 结构型模式（7种）： 适配器、装饰器、代理、外观、桥接、组合、享元。
+> 3. 行为型模式（11种）： 策略、模板、观察者、迭代子、责任链、命令、备忘录、状态、访问者、中介、解释器。
+
+> 设计模式遵循的原则：
+> 1. 开闭原则
+> 2. 里氏代换原则
+> 3. 依赖倒转原则
+> 4. 接口隔离原则
+> 5. 迪米特法则（最少知道原则）
+> 6. 合成复用原则
+
+## 创建者模式（7种）
+
+### 单例模式（Singleton）
+> 在内部创建一个实例，构造器全部设置为private，所有的方法均在该实例上做改动，在创建时类的实例化只能执行一次，可以采用多种方法来实现，如Synchronized关键字，或者利用内部类等机制来实现。
+```
+public class Singleton {
+    private Singleton() {}
+    private static class SingletonBuild {
+        private static Singleton value = new Singleton();
+    }
+    public Stingleton getInstance() {
+        return SingletonBuild.value;
+    }
+}
+
+```
+
+### 工厂方法模式（Factory Method）
+> 常用的工厂模式是静态工厂，利用static方法，作为一种类似于常见的工具类utils等辅助效果，一般情况下工厂类不需要实例化。
+```java
+interface food{}
+
+class A implements food{}
+class B implements food{}
+
+public class StaticFactory {
+    private StaticFactory() {}
+    public static food getA() {return new A();}
+    public static food getB() {return new B();}
+}
+```
+
+### 抽象工厂模式（Abstract Factory）
+> 一个基础接口定义了功能，每个实现接口的子类就是产品，然后定义一个工厂接口，实现了工厂接口就是工厂，这时候，接口编程的有点就出现了，我们可以新增产品类（只需要实现产品接口），只需要同时新增一个工厂类，客户端就可以轻松调出新产品的代码。
+```java
+interface food {}
+
+class A implements food {}
+class B implements food {}
+
+interface produce {
+    food get();
+}
+
+class FactoryForA implements produce {
+    @Override
+    public food get() {
+        return new A();
+    }
+}
+class FactoryForB implements produce {
+    @Override
+    public food get() {
+        return new B();
+    }
+}
+```
+
+### 建造者模式（Builder）
+```java
+public class Builder {
+    static  class Student {
+        String name = null;
+        String age = null;
+        String sex = null;
+
+        public Student(StudentBuilder builder) {
+            this.name = builder.name;
+            this.age = builder.age;
+            this.sex = builder.sex;
+        }
+        static class StudentBuilder {
+            String name = null;
+            String age = null;
+            String sex = null;
+            public Student build() {
+                return new Student(this);
+            }
+            public StudentBuilder setName(String name) {
+                this.name = name;
+                return this;
+            }
+            public StudentBuilder setAge(String age) {
+                this.age = age;
+                return this;
+            }
+            public StudentBuilder setSex(String sex) {
+                this.sex = sex;
+                return this;
+            }
+        }
+    }
+}
+
+```
+
+### 原型模式（Protype）
+> 用对象作为原型，使用clone()方法创建新的实例。
+```java
+public class Protype implements Cloneable {
+    private String name;
+    
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        } finally{
+            return null; // ?
+        }
+    }
+}
+``` 
+
+# Spring

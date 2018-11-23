@@ -1,19 +1,23 @@
 <template>
     <div id="articleList">
-
+        123
     </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator';
 
-@Component
+@Component({})
 export default class ArticleList extends Vue {
 
-    async fetch() {
-        this.$http.get('/')
+    public async fetch() {
+        this.$http.get('/api/articles/').then(resp => {
+            // console.log(resp.data);
+        }).catch(err => {
+            // console.log(err);
+        })
     }
-    created () {
-        fetch()
+    public created() {
+        this.fetch();
     }
 }
 </script>

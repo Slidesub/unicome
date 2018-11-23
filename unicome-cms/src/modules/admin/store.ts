@@ -1,40 +1,36 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import * as actions from './store/actions';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    errors: new Array<ApiReq>(),
+    errors: new Array<ApiCall>(),
   },
   getters: {
     isUnauthApiReq(state): boolean {
-      return state.errors.some((rep: ApiReq)  => rep.statusCode === 401);
-    }
+      return state.errors.some((rep: ApiCall)  => rep.status === 401);
+    },
   },
   mutations: {
     ['SET_API_REP'](state, apiReq: {}): void {
-      state.errors.push(new ApiReq(apiReq));
+      state.errors.push(new ApiCall(apiReq));
     },
     ['CLEAR_API_REP'](state): void {
-      state.errors = state.errors.filter((rep: ApiReq) => rep.statusCode !== 200);
-    }
+      state.errors = state.errors.filter((rep: ApiCall) => rep.status !== 200);
+    },
   },
-  actions: {
-    clearApiRep({ commit }): void {
-      commit('CLEAR_API_REP');
-    }
-  },
-}); 
+  actions,
+});
 
-export class ApiReq {
-  public code: number;
-  public msg: string;
-  public statusCode: number;
-
-  constructor(apiReq: any = {}) {
-    this.code = apiReq.code;
-    this.msg = apiReq.msg;
-    this.statusCode = apiReq.statusCode;
+export class ApiCall {
+  public status: number;
+  public statusText: string;
+  public message: string;
+  constructor(call: any = {}) {
+    this.status = call.status;
+    this.statusText = call.statusText;
+    this.message = call.message;
   }
 }

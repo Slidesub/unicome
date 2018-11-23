@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const ArticleHandler = require('../handlers/article.handler')
 
-router.prefix('/articles')
+router.prefix('/api/articles')
 
 router.post('/', async (ctx, next) => {
     const result = await ArticleHandler.add(ctx)

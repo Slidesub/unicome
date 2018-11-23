@@ -32,4 +32,4 @@ class FileEntrytHandler {
     }
 }
 
-module.exports = UploadHandler;
+module.exports = FileEntrytHandler;
