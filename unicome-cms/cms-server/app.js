@@ -32,7 +32,6 @@ app.use(
     htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
     whiteList: ['/api'],
     rewrites: [
-      { from: /^\/$/, to: path.join(distPath, 'index.html') },
       { from: /\/admin/, to: '/admin.html' },
       { from: /^\/admin\/.*$/, to: '/admin.html'},
       { from: /\/blog/, to: '/blog.html' },
