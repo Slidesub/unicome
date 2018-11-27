@@ -7,4 +7,6 @@ exports.fileEntry = {
     path: ''
 }
 
+exports.distPath = '../cms-client/dist'
+
 exports.port = 3000

@@ -12,7 +12,7 @@ const database = require('./config').mongoose.database
 
 const historyApiFallback  = require('koa2-connect-history-api-fallback')
 const path = require('path')
-const distPath = path.resolve(__dirname, '../dist')
+const distPath = path.resolve(__dirname, require('./config').distPath)
 
 // error handler
 onerror(app)
