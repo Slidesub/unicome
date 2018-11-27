@@ -26,18 +26,21 @@ app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
 // SAP
-// app.use(require('koa-static')(distPath))
-// app.use(
-//   historyApiFallback ({
-//     index: path.join(distPath, 'index.html'),
-//     whiteList: ['/api'],
-//     rewrites: [
-//       { from: /\//, to: path.join(distPath, 'index.html') },
-//       { from: /\/admin/, to: path.join(distPath, 'admin.html') },
-//       { from: /\/blog/, to: path.join(distPath, 'blog.html') }
-//     ]
-//   })
-// )
+app.use(
+  historyApiFallback ({
+    index: '/index.html',
+    htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
+    whiteList: ['/api'],
+    rewrites: [
+      { from: /^\/$/, to: path.join(distPath, 'index.html') },
+      { from: /\/admin/, to: '/admin.html' },
+      { from: /^\/admin\/.*$/, to: '/admin.html'},
+      { from: /\/blog/, to: '/blog.html' },
+      { from: /^\/blog\/.*$/, to: '/blog.html'}
+    ]
+  })
+)
+app.use(require('koa-static')(distPath))
 
 // app.use(views(__dirname + '/views', {
 //   extension: 'pug'

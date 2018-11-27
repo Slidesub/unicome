@@ -1,8 +1,4 @@
 module.exports = {
-  pwa: {
-    name: 'unicome',
-    msTileColor: '#2C3E50'
-  },
   devServer: {
     index: 'index.html',
     historyApiFallback: {

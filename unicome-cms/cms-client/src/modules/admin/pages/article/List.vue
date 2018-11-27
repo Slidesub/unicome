@@ -7,7 +7,6 @@
                     <td width="10%"></td>
                     <td width="20%">TITLE</td>
                     <td width="20%">DESC</td>
-                    <td width="20%">BODY</td>
                 </tr>
             </thead>
             <tbody>
@@ -15,7 +14,6 @@
                     <td>{{++index}}</td>
                     <td><router-link :to="{ name: 'article-edit', params: {id: article._id} }">{{article.title}}</router-link></td>
                     <td>{{article.desc}}</td>
-                    <td>{{article.body}}</td>
                 </tr>
             </tbody>
         </table>
