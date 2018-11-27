@@ -10,7 +10,7 @@ class ArticleHandler {
             desc: data.desc,
             body: data.body,
             icon: data.icon,
-            tags: data.tags
+            tags: data.tags || []
         }
         let article = await Article.create(doc)
         if (article) {
@@ -47,7 +47,7 @@ class ArticleHandler {
         const article = await Article.findOne({_id: ctx.params.id})
             .populate({path: 'icon', select: '_id name url', model: FileEntry})
             .exec()
-        return { code: 200, msg: 'SUCCESS', data: article }
+        return { article: article }
     }
 
     static async list(ctx) {

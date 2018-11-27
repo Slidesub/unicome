@@ -4,9 +4,8 @@ class TagHandler {
     static async add (ctx) {
         const data = ctx.request.body
         const doc = {
-            code: data.code,
-            name: data.name,
-            desc: data.desc,
+            title: data.title,
+            desc: data.desc
         }
         let tag = await Tag.create(doc)
         if (tag) {
@@ -28,26 +27,21 @@ class TagHandler {
     }
 
     static async update(ctx) {
-        const user = await User.verify(ctx.headers.authorization)
-        if (user) {
-            const data = ctx.request.body
-            const doc = {
-                code: data.code,
-                name: data.name,
-                desc: data.desc,
-                author: user.id
-            }
-            let tag = await Tag.update({_id: ctx.params.id}, doc)
-            if (tag) {
-                return { code: 200, msg: 'SUCCESS' }
-            }
+        const data = ctx.request.body
+        const doc = {
+            title: data.title,
+            desc: data.desc
+        }
+        let tag = await Tag.update({_id: ctx.params.id}, doc)
+        if (tag) {
+            return { code: 200, msg: 'SUCCESS' }
         }
         return { code: 200, msg: 'FAILED' }
     }
 
     static async get(ctx) {
         const tag = await Tag.findOne({_id: ctx.params.id})
-        return { code: 200, msg: 'SUCCESS', data: tag }
+        return { tag: tag }
     }
 
     static async list(ctx) {
@@ -62,7 +56,7 @@ class TagHandler {
         } else {
             tags = await Tag.find()
         }
-        return { code: 200, msg: 'SUCCESS', data: { tags, count } }
+        return { tags, count }
     }
 }
 
