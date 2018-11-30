@@ -13,7 +13,7 @@
                 <tr v-for="(tag, index) of tags" :key="index">
                     <td>{{++index}}</td>
                     <td><router-link :to="{ name: 'tag-edit', params: {id: tag._id} }">{{tag.title}}</router-link></td>
-                    <td>{{tag.desc}}</td>
+                    <td>{{tag.desc | limit}}</td>
                 </tr>
             </tbody>
         </table>
@@ -46,6 +46,14 @@ export default {
                     console.log(error.message);
                 }
             })
+        }
+    },
+    filters: {
+        limit: (value) => {
+            if (value && value.length > 30) {
+                return value.substring(0, 30) + ' ...'
+            }
+            return value
         }
     },
     created () {

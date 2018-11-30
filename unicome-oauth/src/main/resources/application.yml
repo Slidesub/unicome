@@ -1,7 +1,7 @@
 server:
   port: 9992
   servlet:
-    context-path: /oas
+    context-path: /oauth2
   use-forward-headers: true
 
 spring:

@@ -28,17 +28,20 @@ export default {
             })
         },
         submit () {
+            let that = this
             let formData = {
                 title: this.tag.title,
                 desc: this.tag.desc
             }
             if (this.isEdit) {
                 this.$http.put(`/api/tags/${this.$route.params.id}`, formData).then(resp => {
+                    that.$router.replace({name: 'tag-list'})
                 }).catch(error => {
                     console.log(error.message);
                 })
             } else {
                 this.$http.post(`/api/tags`, formData).then(resp => {
+                    that.$router.replace({name: 'tag-list'})
                 }).catch(error => {
                     console.log(error.message);
                 })

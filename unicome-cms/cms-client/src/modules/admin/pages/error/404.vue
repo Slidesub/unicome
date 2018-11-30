@@ -1,5 +1,10 @@
 <template>
-    <dir>
+    <div class="error">
         404
-    </dir>
+    </div>
 </template>
+<style lang="stylus" scoped>
+.error
+    font-family 'Press Start 2P'
+</style>
+

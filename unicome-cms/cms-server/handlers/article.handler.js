@@ -6,9 +6,9 @@ class ArticleHandler {
     static async add(ctx) {
         const data = ctx.request.body
         const doc = {
-            title: data.title,
-            desc: data.desc,
-            body: data.body,
+            title: encodeURI(data.title),
+            desc: encodeURI(data.desc),
+            body: encodeURI(data.body),
             icon: data.icon,
             tags: data.tags || []
         }
@@ -30,11 +30,11 @@ class ArticleHandler {
     static async update(ctx) {
         const data = ctx.request.body
         const doc = {
-            title: data.title,
-            desc: data.desc,
+            title: encodeURI(data.title),
+            desc: encodeURI(data.desc),
+            body: encodeURI(data.body),
             icon: data.icon,
-            body: data.body,
-            tags: data.tags
+            tags: data.tags || []
         }
         let article = await Article.update({_id: ctx.params.id}, doc)
         if (article) {
@@ -46,6 +46,7 @@ class ArticleHandler {
     static async get(ctx) {
         const article = await Article.findOne({_id: ctx.params.id})
             .populate({path: 'icon', select: '_id name url', model: FileEntry})
+            .populate({path: 'tags', select: '_id title desc', model: Tag})
             .exec()
         return { article: article }
     }
@@ -60,7 +61,7 @@ class ArticleHandler {
             const index = parseInt(data.index)
             articles = await Article.find().skip(size * (index - 1)).limit(size)
                 .populate({path: 'icon', select: '_id name url', model: FileEntry})
-                .populate({path: 'tags', select: '_id code name', model: Tag})
+                .populate({path: 'tags', select: '_id title desc', model: Tag})
                 .exec()
         } else {
             articles = await Article.find()

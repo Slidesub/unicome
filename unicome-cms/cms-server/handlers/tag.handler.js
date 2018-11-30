@@ -4,8 +4,8 @@ class TagHandler {
     static async add (ctx) {
         const data = ctx.request.body
         const doc = {
-            title: data.title,
-            desc: data.desc
+            title: encodeURI(data.title),
+            desc: encodeURI(data.desc)
         }
         let tag = await Tag.create(doc)
         if (tag) {
@@ -29,8 +29,8 @@ class TagHandler {
     static async update(ctx) {
         const data = ctx.request.body
         const doc = {
-            title: data.title,
-            desc: data.desc
+            title: encodeURI(data.title),
+            desc: encodeURI(data.desc)
         }
         let tag = await Tag.update({_id: ctx.params.id}, doc)
         if (tag) {

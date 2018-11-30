@@ -38,6 +38,7 @@ export default {
         fetchArticles () {
             this.$http.get(`/api/articles/${this.$route.params.id}`).then(resp => {
                 this.article = resp.data.article || {}
+                this.toArray()
             }).catch(error => {
                 console.log(error.message)
             })
@@ -50,6 +51,7 @@ export default {
             })
         },
         submit () {
+            let that = this
             let formData = {
                 title: this.article.title,
                 desc: this.article.desc,
@@ -58,15 +60,26 @@ export default {
             }
             if (this.isEdit) {
                 this.$http.put(`/api/articles/${this.$route.params.id}`, formData).then(resp => {
+                    that.$router.replace({name: 'article-list'})
                 }).catch(error => {
                     console.log(error.message);
                 })
             } else {
                 this.$http.post(`/api/articles`, formData).then(resp => {
+                    that.$router.replace({name: 'article-list'})
                 }).catch(error => {
                     console.log(error.message);
                 })
             }
+        },
+        toArray () {
+            let values = []
+            if (this.article.tags) {
+                this.article.tags.forEach(tag => {
+                    values.push(tag._id)
+                })
+            }
+            this.article.tags = values
         }
     },
     created () {

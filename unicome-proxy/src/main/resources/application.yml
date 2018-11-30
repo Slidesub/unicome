@@ -13,8 +13,14 @@ zuul:
       sensitiveHeaders:
       custom-sensitive-headers: true
       stripPrefix: false
-      path: /oas/**
+      path: /oauth2/**
       serviveId: unicome-oauth
+    unicome-cms:
+      sensitiveHeaders:
+      custom-sensitive-headers: true
+      stripPrefix: false
+      path: /cms/**
+      serviveId: unicome-cms
 
 # Security
 security:
@@ -26,12 +32,12 @@ security:
     sso:
       loginPath: /login
     client:
-      accessTokenUri: http://unicome-oauth/oas/oauth/token
-      userAuthorizationUri: /oas/oauth/authorize
+      accessTokenUri: http://unicome-oauth/oauth2/oauth/token
+      userAuthorizationUri: /oauth2/oauth/authorize
       clientId: admin
       clientSecret: admin
     resource:
-      userInfoUri: http://unicome-oauth/oas/oauth/user
+      userInfoUri: http://unicome-oauth/oauth2/oauth/user
 
 #Eureka
 eureka:

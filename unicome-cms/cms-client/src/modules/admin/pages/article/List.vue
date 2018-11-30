@@ -7,13 +7,18 @@
                     <td width="10%"></td>
                     <td width="20%">TITLE</td>
                     <td width="20%">DESC</td>
+                    <td width="10%">PREVIEW</td>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(article, index) of articles" :key="index">
                     <td>{{++index}}</td>
-                    <td><router-link :to="{ name: 'article-edit', params: {id: article._id} }">{{article.title}}</router-link></td>
-                    <td>{{article.desc}}</td>
+                    <td>
+                        <router-link :title="article.title" :to="{ name: 'article-edit', params: {id: article._id} }">
+                            {{article.title|limit}}
+                        </router-link></td>
+                    <td :title="article.desc">{{article.desc | limit}}</td>
+                    <td><router-link :to="{ name: 'article-preview', params: {id: article._id} }">-></router-link></td>
                 </tr>
             </tbody>
         </table>
@@ -46,6 +51,14 @@ export default {
                     console.log(error.message);
                 }
             })
+        }
+    },
+    filters: {
+        limit: (value) => {
+            if (value && value.length > 30) {
+                return value.substring(0, 30)  + ' ...'
+            }
+            return value
         }
     },
     created () {

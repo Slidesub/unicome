@@ -13,7 +13,7 @@
         <module>unicome-eureka</module>
         <module>unicome-proxy</module>
         <module>unicome-oauth</module>
-        <!--<module>unicome-cms</module>-->
+        <module>unicome-cms</module>
     </modules>
 
     <properties>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional><!--依赖会传递-->
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <repositories>
@@ -66,7 +66,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>true</fork><!--没有该项配置，devtools不会起作用-->
+                    <fork>true</fork>
                 </configuration>
             </plugin>
             <plugin>

@@ -13,9 +13,17 @@ export default new Router({
       component: Page,
       children: [
         { path: '', name: 'dashboard', component: () => import('./pages/Dashboard.vue') },
+
         { path: '/article', name: 'article-list', component: () => import('./pages/article/List.vue') },
         { path: '/article/create', name: 'article-create', component: () => import('./pages/article/Edit.vue') },
+        { path: '/article/preview/:id', name: 'article-preview', component: () => import('./pages/article/Preview.vue') },
         { path: '/article/:id', name: 'article-edit', component: () => import('./pages/article/Edit.vue'), meta: { isEdit: true } },
+
+        // { path: '/article', name: 'article-list', component: () => import('./pages/article/List.vue') },
+        // { path: '/article/create', name: 'article-create', component: () => import('./pages/article/Edit.vue') },
+        // { path: '/article/:id/edit', name: 'article-edit', component: () => import('./pages/article/Edit.vue'), meta: { isEdit: true } },
+        // { path: '/article/:id', name: 'article-preview', component: () => import('./pages/article/Preview.vue') },
+
         { path: '/tag', name: 'tag-list', component: () => import('./pages/tag/List.vue') },
         { path: '/tag/create', name: 'tag-create', component: () => import('./pages/tag/Edit.vue') },
         { path: '/tag/:id', name: 'tag-edit', component: () => import('./pages/tag/Edit.vue'), meta: { isEdit: true } }

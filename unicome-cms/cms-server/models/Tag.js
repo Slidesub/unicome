@@ -14,4 +14,19 @@ const TagSchema = new Schema({
     }
 });
 
+TagSchema.post('findOne', function (tag, next) {
+    tag.title = decodeURI(tag.title)
+    tag.desc = decodeURI(tag.desc)
+    next();
+});
+
+TagSchema.post('find', function (tags, next) {
+    tags.forEach(tag => {
+        tag.title = decodeURI(tag.title)
+        tag.desc = decodeURI(tag.desc)
+    })
+    next();
+});
+
+
 module.exports = mongoose.model('Tag', TagSchema, 'tag');
