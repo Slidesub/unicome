@@ -22,6 +22,10 @@ const ArticleSchema = new Schema({
         unique: false,
         require: false
     },
+    hot: {
+        type: Boolean,
+        require: false
+    },
     tags: {
         type: [ Schema.Types.ObjectId ],
         unique: false,

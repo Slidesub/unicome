@@ -1,26 +1,36 @@
 <template>
-    <div class="articleEdit">
-        <div><input type="text" v-model="article.title" /></div>
-        <div><input type="text" v-model="article.desc" /></div>
-        <div>
-            <select v-model="article.tags" multiple>
-                <option v-for="(tag, index) of tags" :key="index" :value="tag._id">{{tag.title}}</option>
-            </select>
-        </div>
-        <div><textarea v-model="article.body"></textarea></div>
-        <div>
-            <button @click="submit">publish</button>
-        </div>
+    <div class="article-edit">
+        <div><u-input v-model.trim="article.title"></u-input></div>
+        <div><u-input v-model.trim="article.desc"></u-input></div>
+        <div><u-multiple-select v-model="article.tags" :options="tags"></u-multiple-select></div>
+        <u-code-mirror v-model="article.body"></u-code-mirror>
+        <u-button @click="showConfirm">PUBLISH</u-button>
+        <u-confirm v-model="show" @on-confirm="submit"></u-confirm>
     </div>
 </template>
 <script>
+import UConfirm from '@/components/u-confirm'
+import UDialog from '@/components/u-dialog'
+import UInput from '@/components/u-input'
+import UButton from '@//components/u-button'
+import UCodeMirror from '@/components/u-codemirror'
+import uMultipleSelect from '@/components/u-multiple-select'
 export default {
+    components: {
+        UConfirm,
+        UDialog,
+        UInput,
+        UButton,
+        UCodeMirror,
+        uMultipleSelect
+    },
     data () {
         return {
             tags: [],
             article: {
                 tags: []
-            }
+            },
+            show: false,
         }
     },
     computed: {
@@ -39,7 +49,7 @@ export default {
             this.$http.get(`/api/articles/${this.$route.params.id}`).then(resp => {
                 this.article = resp.data.article || {}
                 this.toArray()
-            }).catch(error => {
+             }).catch(error => {
                 console.log(error.message)
             })
         },
@@ -49,6 +59,9 @@ export default {
             }).catch(error => {
                 console.log(error.message)
             })
+        },
+        showConfirm() {
+            this.show = !this.show
         },
         submit () {
             let that = this
@@ -87,4 +100,10 @@ export default {
     }
 }
 </script>
+<style lang="stylus" scoped>
+.article-edit
+    center
+
+</style>
+
 

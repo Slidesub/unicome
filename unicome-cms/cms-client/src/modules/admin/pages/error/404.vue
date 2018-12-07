@@ -1,6 +1,6 @@
 <template>
     <div class="error">
-        404
+        <center>404</center>
     </div>
 </template>
 <style lang="stylus" scoped>

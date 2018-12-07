@@ -1,16 +1,24 @@
 <template>
     <div class="tagEdit">
-        <div><input type="text" v-model="tag.title" /></div>
-        <div><textarea v-model="tag.desc"></textarea></div>
-        <div>
-            <button @click="submit">publish</button>
-        </div>
+        <div><u-input v-model.trim="tag.title"></u-input></div>
+        <div><u-input v-model.trim="tag.desc"></u-input></div>
+        <u-button @click="showConfirm">PUBLISH</u-button>
+        <u-confirm v-model="show" @on-confirm="submit"></u-confirm>
     </div>
 </template>
 <script>
+import UInput from '@/components/u-input'
+import UButton from '@/components/u-button'
+import UConfirm from '@/components/u-confirm'
 export default {
+    components: {
+        UInput,
+        UButton,
+        UConfirm
+    },
     data () {
         return {
+            show: false,
             tag: {}
         }
     },
@@ -46,6 +54,9 @@ export default {
                     console.log(error.message);
                 })
             }
+        },
+        showConfirm() {
+            this.show = !this.show
         }
     },
     created () {

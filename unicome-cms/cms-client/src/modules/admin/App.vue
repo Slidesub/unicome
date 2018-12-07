@@ -1,8 +1,18 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!-- <router-view/> -->
+    <u-layout></u-layout>
   </div>
 </template>
+<script>
+import ULayout from '@/components/u-layout'
+export default {
+  components: {
+    ULayout
+  }
+}
+</script>
+
 <style lang="stylus">
 @import "~@/style/reset"
 

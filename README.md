@@ -292,4 +292,53 @@ public class Protype implements Cloneable {
 }
 ``` 
 
-# Spring
+# Spring Core
+Spring的核心是IOC和DI，即控制反转和依赖注入，
+IOC指把对象的装配和管理交给spring容器
+对象之间的关系Spring使用DI来维护
+                
+|Spring容器|||
+|:------|------:|:------:|
+| A类的实例|注入|B类的实例 |
+
+Spring容器装配bean:ApplicationContext和BeanFactory
+
+BeanFactory：getBean()装配
+---> ApplicationContext：容器初始化阶段对所有容器中的bean进行装配
+
+IOC之基于注解的DI
+Bean的创建
+@Component
+@Repository
+@Service
+@Controller
+Bean属性依赖注入
+@Value: 基本类型， String等
+@Autowired： 对象
+@Resource： 对象
+对于对象类型的注入, 分为两种byName和byType
+byName: @Autowired + @Qualifier或@Resource(name="")
+byType: @Autowired/@Qualifier/@Resource
+
+## 面向切面编程
+AOP的实现原理 - JDK动态代理和CGLIB动态代理
+
+JDK动代理需要目标对象实现接口，CGLIB动态代理则无需如此。
+
+
+切面（切面代码）
+目标对象（可以被切面增强的对象）
+织入（把切面代码插入到目标对象方法的过程）
+通知（前置/后置/环绕）
+顾问
+连接点（目标对象中完成主逻辑的方法，可以被切面织入的方法）
+切入点（目标对象具体被切面织入的方法）
+
+通知和顾问:
+MethodBeforeAdvice：前置
+AfterReturningAdvice：后置
+MethodInterceptor：环绕
+NameMatchMethodPointcutAdvisor
+
+5. Aspect Oriented Programming with Spring
+面向过程编程(AOP)通过 

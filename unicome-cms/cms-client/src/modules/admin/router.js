@@ -4,12 +4,12 @@ import Page from './pages/Page.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL + 'admin',
   routes: [
     {
-      path: '/',
+      path: '',
       component: Page,
       children: [
         { path: '', name: 'dashboard', component: () => import('./pages/Dashboard.vue') },
@@ -39,3 +39,20 @@ export default new Router({
     }
   ]
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.auth)) {
+//     // 发送请求验证有没有登陆
+//     if () {
+//       next({
+//         path: '/login',
+//         query: {
+//           redirect: to.fullPath
+//         }
+//       })
+//     }
+//   }
+//   next()
+// })
+
+export default router
