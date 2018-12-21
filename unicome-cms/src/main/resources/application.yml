@@ -6,3 +6,6 @@ server:
 spring:
   application:
     name: unicome-cms
+  data:
+    mongodb:
+      uri: mongodb://52.69.9.211:27017/unicome_cms2

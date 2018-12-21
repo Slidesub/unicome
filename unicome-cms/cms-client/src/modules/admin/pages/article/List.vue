@@ -1,5 +1,5 @@
 <template>
-    <div class="articleList">
+    <div class="article-list">
         <router-link :to="{ name: 'article-create'}">CREATE</router-link>
         <table>
             <thead>
@@ -66,5 +66,11 @@ export default {
     }
 }
 </script>
+<style lang="stylus" scoped>
+.article-list
+    font-size 16px
+    padding 1em
+</style>
+
 
 

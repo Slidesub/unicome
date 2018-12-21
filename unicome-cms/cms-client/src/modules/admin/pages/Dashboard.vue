@@ -13,6 +13,7 @@
             <h1><center>{{ article.title }}</center></h1>
             <div v-html="toHtml(article.body)"></div>
         </main> -->
+        <u-loading v-model="loading"></u-loading>
         <ul>
             <li v-for="(tag, index) of tags" :key="index">
                 <u-panel :title="tag.title" :content="tag.desc" width="20em" height="15em"></u-panel>
@@ -24,9 +25,11 @@
 import shuffle from 'lodash/shuffle'
 import markdown from 'markdown'
 import UPanel from '@/components/u-panel'
+import ULoading from '@/components/u-loading'
 export default {
     components: {
-        UPanel
+        UPanel,
+        ULoading
     },
     data () {
         return {
@@ -39,7 +42,8 @@ export default {
                     number: index % 9 + 1
                 }
             }),
-            article: {}
+            article: {},
+            loading: true
         }
     },
     methods: {

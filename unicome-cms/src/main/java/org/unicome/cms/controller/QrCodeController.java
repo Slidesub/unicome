@@ -12,8 +12,8 @@ public class QrCodeController {
 
     @GetMapping(value="/create")
     public String qrCode(@RequestParam String url,
-                         @RequestParam(required=false, defaultValue="0") int width,
-                         @RequestParam(required=false, defaultValue="0") int height) throws Exception {
+                         @RequestParam(required=false, defaultValue="300") int width,
+                         @RequestParam(required=false, defaultValue="300") int height) throws Exception {
         return QrCodeSingleton.getInstance().encode2Base64(url, width, height);
     }
 }

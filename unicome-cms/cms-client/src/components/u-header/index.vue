@@ -2,8 +2,8 @@
     <header class="header" ref="header" v-scroll>
         <slot>
              <ul>
-                <li class="logo">UNICOME.ORG</li>
-                <li><router-link :to="{ name: 'dashboard' }">INDEX</router-link></li>
+                <!-- <li></li> -->
+                <router-link :to="{ name: 'dashboard' }"><u-logo></u-logo></router-link>
                 <li><router-link :to="{ name: 'article-list' }">ARTICLE</router-link></li>
                 <li><router-link :to="{ name: 'tag-list' }">TAG</router-link></li>
             </ul>
@@ -15,7 +15,11 @@
 </template>
 
 <script>
+import ULogo from '@/components/u-logo'
 export default {
+  components: {
+    ULogo
+  },
   data () {
     return {
       scrollTop: 0
@@ -57,7 +61,8 @@ export default {
   justify-content space-between
   background-color #fff
   box-shadow 0 2px 4px -1px rgba(0,0,0,.25)
-  width 100%
+  padding 0 1em
+  width calc(100% - 2em)
   height 4em
   transition top .2s ease-in-out
   ul

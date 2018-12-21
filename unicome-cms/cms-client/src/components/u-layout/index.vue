@@ -28,6 +28,8 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.u-layout
+    font-size: 16px
 .section
     padding-top 4em
 </style>
