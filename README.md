@@ -342,3 +342,17 @@ NameMatchMethodPointcutAdvisor
 
 5. Aspect Oriented Programming with Spring
 面向过程编程(AOP)通过 
+
+
+
+快捷键
+Ctrl+R，替换文本
+Ctrl+F，查找文本
+Ctrl+N，可以快速打开类
+Ctrl+F12，可以显示当前文件的结构
+Ctrl+O，重写方法
+Ctrl+Alt+Space，类名自动完成
+Alt+F3，逐个往下查找相同文本，并高亮显示
+Alt+F7，查找整个工程中使用地某一个类、方法或者变量的位置
+Alt+F8，计算变量值
+Ctrl+I，实现方法

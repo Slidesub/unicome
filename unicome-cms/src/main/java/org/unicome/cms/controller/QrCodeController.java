@@ -10,7 +10,7 @@ import org.unicome.cms.singleton.QrCodeSingleton;
 @RequestMapping(value="/qrcode")
 public class QrCodeController {
 
-    @GetMapping(value="/create")
+    @GetMapping(value="")
     public String qrCode(@RequestParam String url,
                          @RequestParam(required=false, defaultValue="300") int width,
                          @RequestParam(required=false, defaultValue="300") int height) throws Exception {

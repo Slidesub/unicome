@@ -24,7 +24,7 @@ public class ArticleVO implements Serializable {
     private List<String> tags; // id
     private String author;
 
-    public static ArticleVO convert2VO(Article article) {
+    public static ArticleVO convert(Article article) {
         ArticleVO articleVO = new ArticleVO();
         articleVO.setId(article.getId());
         articleVO.setTitle(article.getTitle());
@@ -76,7 +76,7 @@ public class ArticleVO implements Serializable {
         if (!CollectionUtils.isEmpty(articles)) {
             articleVOs = new ArrayList<>();
             for (Article article : articles) {
-                articleVOs.add(ArticleVO.convert2VO(article));
+                articleVOs.add(ArticleVO.convert(article));
             }
         }
         return articleVOs;
