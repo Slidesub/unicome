@@ -6,6 +6,17 @@ server:
 spring:
   application:
     name: unicome-cms
+  messages:
+    basename: i18n/messages
+    cache-seconds: 3600
+    encoding: UTF-8
   data:
     mongodb:
       uri: mongodb://52.69.9.211:27017/unicome_cms2
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5

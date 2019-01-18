@@ -1,10 +1,15 @@
 package org.unicome.cms.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+@Slf4j
 public class DateTimeUtil {
     public static final String yyyyMMdd = "yyyy-MM-dd";
 
@@ -25,12 +30,22 @@ public class DateTimeUtil {
         return calendar.getTime();
     }
     public static void main(String[] args) {
-        String date = "2018-12-31";
+//        String date = "2018-12-31";
+//        try {
+//            Date newDate = dateCal(parse(date, yyyyMMdd), -15);
+//            System.out.println(format(newDate, yyyyMMdd));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
         try {
-            Date newDate = dateCal(parse(date, yyyyMMdd), -15);
-            System.out.println(format(newDate, yyyyMMdd));
-        } catch (ParseException e) {
+            List<String> a = new ArrayList<>();
+            a.add("cc");
+            Long b= 12L;
+            log.info("" + b);
+        }catch(Exception e) {
             e.printStackTrace();
         }
+
     }
 }

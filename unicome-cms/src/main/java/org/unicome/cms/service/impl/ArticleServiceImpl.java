@@ -59,7 +59,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article createByUser(String uid, ArticleVO vo) {
         Article article = ArticleVO.convert(vo);
-        article.setAuthor(uid);
+        article.setCreateBy(uid);
         return articleRepository.insert(article);
     }
 

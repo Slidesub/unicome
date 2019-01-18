@@ -7,7 +7,8 @@ import java.util.Date;
 
 @Data
 public class Base implements Serializable {
-    private String author;
+    private String createBy;
+    private String updateBy;
     private Date createDate;
     private Date updateDate;
 }

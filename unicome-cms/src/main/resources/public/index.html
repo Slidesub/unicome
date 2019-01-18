@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>category</title>
+    <link href="./css/category.css"/>
+</head>
+<body>
+<ul id="demo">
+    <item class="item" :model="treeData"></item>
+</ul>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+<script src="./js/category.js"></script>
+<script>
+let treeData = {
+                 name: 'CATEGORY',
+                 children: [
+                   { name: 'hello' },
+                   { name: 'wat' },
+                   {
+                     name: 'child folder',
+                     children: [
+                       {
+                         name: 'child folder',
+                         children: [
+                           { name: 'hello' },
+                           { name: 'wat' }
+                         ]
+                       },
+                       { name: 'hello' },
+                       { name: 'wat' },
+                       {
+                         name: 'child folder',
+                         children: [
+                           { name: 'hello' },
+                           { name: 'wat' }
+                         ]
+                       }
+                     ]
+                   }
+                 ]
+               };
+new Vue({
+  el: '#demo',
+  data: {
+    treeData: treeData
+  }
+})
+
+</script>
+</body>
+</html>

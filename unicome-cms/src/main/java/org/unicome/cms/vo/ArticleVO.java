@@ -30,7 +30,7 @@ public class ArticleVO implements Serializable {
         articleVO.setTitle(article.getTitle());
         articleVO.setDescription(article.getDescription());
         articleVO.setBody(article.getBody());
-        articleVO.setAuthor(article.getAuthor());
+        articleVO.setAuthor(article.getCreateBy());
         if (null != article.getIcon()) {
             Map<String, String> icon = new HashMap<String, String>();
             icon.put(article.getIcon().getId(), article.getIcon().getUrl());
@@ -54,7 +54,7 @@ public class ArticleVO implements Serializable {
         article.setTitle(articleVO.getTitle());
         article.setDescription(articleVO.getDescription());
         article.setBody(articleVO.getBody());
-        article.setAuthor(articleVO.getAuthor());
+        article.setCreateBy(articleVO.getAuthor());
         if (!CollectionUtils.isEmpty(articleVO.getIcon())) {
             FileEntry icon = new FileEntry();
             icon.setId(articleVO.getIcon().get("id"));
