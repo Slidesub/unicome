@@ -2,12 +2,10 @@ package org.unicome.cms.util;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class DateTimeUtil {
@@ -43,9 +41,15 @@ public class DateTimeUtil {
             a.add("cc");
             Long b= 12L;
             log.info("" + b);
+
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+            Calendar cal = Calendar.getInstance();
+            System.out.println(cal.getTime());
         }catch(Exception e) {
             e.printStackTrace();
         }
+
+
 
     }
 }
