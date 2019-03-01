@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <u-icon color="red" type="folder" ></u-icon>
+    <u-icon color="red" type="help-circle" ></u-icon>
     <u-input  :model="title"></u-input>
     {{title}}
   </div>
