@@ -1,14 +1,14 @@
 <template>
-    <header class="header" ref="header" v-scroll>
+    <header class="header fixed" ref="header" v-scroll>
         <slot>
-             <ul>
-                <!-- <li></li> -->
+             <!--<ul>
                 <router-link :to="{ name: 'dashboard' }"><u-logo></u-logo></router-link>
                 <li><router-link :to="{ name: 'article-list' }">ARTICLE</router-link></li>
                 <li><router-link :to="{ name: 'tag-list' }">TAG</router-link></li>
             </ul>
+            -->
             <ul>
-                <li>name|logout</li>
+                <li></li>
             </ul>
         </slot>
     </header>
@@ -54,18 +54,18 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .header
-  font-size 16px
-  position fixed
+  font-size inherit
   display flex
   flex-direction row
   justify-content space-between
   background-color #fff
-  box-shadow 0 2px 4px -1px rgba(0,0,0,.25)
+  box-shadow 0 2px 4px -1px rgb(132,133,135)
   padding 0 1em
-  width calc(100% - 2em)
   height 4em
   transition top .2s ease-in-out
+  z-index 9999
   ul
+    list-style none
     display flex
     flex-direction row
     margin 0
@@ -73,4 +73,8 @@ export default {
     li
       padding 1.5em
       line-height 1
+.fixed
+    position fixed
+    left 0
+    right 0
 </style>

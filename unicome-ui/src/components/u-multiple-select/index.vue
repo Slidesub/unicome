@@ -1,93 +1,141 @@
 <template>
-    <span class="u-multiple-select">
-        <select multiple class="multiple-select-class" v-model="selected" @change="change">
-            <option v-for="(item, index) of getOptions" :key="index" :value="item.key">{{ item.value }}</option>
-        </select>
-    </span>
+    <div class="u-multiple-select" ref="multipleSelect" @click="dropdown()">
+        <div class="label-wrap" ref="selected">
+            {{selected.toString() || placeholder}}
+        </div>
+        <div ref="dropdown" class="dropdown-wrap" v-show="isShow">
+            <u-options @select="change"></u-options>
+        </div>
+    </div>
 </template>
 <script>
+import UOptions from './options.js';
 export default {
+    components: {
+        UOptions
+    },
     model: {
         prop: 'value',
         event: 'change'
     },
     props: {
+        placeholder: {
+            type: String,
+            default: 'Please Select'
+        },
         value: {
             type: Array,
             default: function () {
                 return []
             }
-        },
-        options: {
-            type: Array,
-            default: function () {
-                return []
-            }
-        },
+        }
     },
     data () {
         return {
-            selected: []
+            isShow: false,
+            selected: this.value || []
         }
     },
     methods: {
-        change (event) {
-            this.$emit('change', this.selected)
+        dropdown () {
+            if (!this.isShow) {
+                this.isShow = true;
+            }
+        },
+        change (evt) {
+            if (this.hasClass(evt.target, 'selected')) {
+                this.removeClass(evt.target, 'selected');
+                this.selected.splice(this.selected.indexOf(evt.target.getAttribute('data-value')), 1);
+            } else {
+                this.addClass(evt.target, 'selected');
+                this.selected.push(evt.target.getAttribute('data-value'));
+            }
+            // 改变model的value值
+            this.$emit('change', this.selected);
+        },
+        hasClass(obj, cls) {
+            let classNameList = obj.className.split(/\s+/);
+            for (let x in classNameList) {
+                if (classNameList[x] === cls) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        addClass(obj, cls) {
+            let blank = obj.className != '' ? ' ' : '';
+            obj.className = obj.className + blank + cls;
+        },
+        removeClass(obj, cls) {
+            // g 全局，i 大小写不敏感
+            // \s+ 查找多个空白字符
+            let removed = (' ' + obj.className.replace(/(\s+)/gi, ' ') + ' ').replace(' ' + cls + ' ', '');
+            obj.className = removed.replace(/(^\s+)|(\s+$)/g, '');
+        },
+        showSelectedValue() {
+            let that = this;
+            let selectedValue = '';
+            document.querySelectorAll('.option').forEach(option => {
+                if (this.selected.indexOf(option.getAttribute('data-value')) > -1) {
+                    selectedValue += selectedValue === ''? option.innerText : ', ' + option.innerText;
+                }
+            });
+            this.$refs.selected.innerHTML = selectedValue;
+        },
+        addListener() {
+            let that = this;
+            document.addEventListener('click', function (event) {
+                if (that.isShow &&  !that.$refs.multipleSelect.contains(event.target)) {
+                    that.isShow = false;
+                }
+            });
         }
     },
     computed: {
-        getOptions () {
-            let arrs = []
-            this.options.forEach(item => {
-                let arr = []
-                for (name in item) {
-                    arr.push(name)
-                }
-                if (arr && arr.length > 1) {
-                    let key = arr[0]
-                    let value = arr[1]
-                    arrs.push({key: item[key], value: item[value]})
-                }
-            });
-            return arrs
-        }
+    },
+    mounted () {
+        this.showSelectedValue();
+        this.addListener();
     },
     watch: {
-        value (target) {
-            this.selected = target || []
+        selected (data) {
+            this.showSelectedValue();
         }
     }
 }
 </script>
 <style lang="stylus" scoped>
 .u-multiple-select
-    font-size 16px
-.multiple-select-class
     font-size inherit
-    min-width 20em
-    padding 0.5em
-    border 1px solid #2c3e50
-    border-radius .2em
-    outline-color #42b983
-    margin .5em 0
-
-// // 滚动条宽高
-// ::-webkit-scrollbar
-//   width: 8px;
-//   background-color: rgba(255, 255, 255, 0.2);
-
-// // 定义滚动条轨道 内阴影+圆角
-// ::-webkit-scrollbar-track
-//   -webkit-box-shadow: inset 0 0 8px rgb(1, 64, 118);
-//   border-radius: 2px;
-//   background-color: rgba(245, 245, 245, 0.2);
-
-// // 定义滑块 内阴影+圆角
-// ::-webkit-scrollbar-thumb
-//   border-radius: 10px;
-//   -webkit-box-shadow: inset 0 0 8px #014076;
-//   background-color: #555;
-
+    width 15em
+    height 2em
+    border 1px solid #d1d5da
+    border-radius 5px
+    outline none
+    .label-wrap
+        height 2em
+        line-height 2em
+        padding 0 8px
+    .dropdown-wrap
+        margin-top 5px
+        border 1px solid #d1d5da
+        border-radius 5px
+        padding 0 8px
+        overflow auto
+        .options
+            max-height 10em
+            .optgroup-label
+                font-weight bold
+                line-height 2em
+                border-bottom 1px solid #eee
+            .option
+                border-bottom 1px solid #d1d5da
+                line-height 2em
+                height 2em
+            .option:last-child
+                border-bottom none
+            .selected
+                background-color #eee
 </style>
 
 

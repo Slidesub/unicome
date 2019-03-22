@@ -1,7 +1,5 @@
 <template>
-    <span class="u-input">
         <input class="u-input-class" :placeholder="placeholder" :type="type" :value="value" @input="$emit('input', $event.target.value)">
-    </span>
 </template>
 <script>
 export default {
@@ -17,18 +15,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.u-input
-    font-size 16px
 .u-input-class
     font-size inherit
     height 2em
-    width 19em
-    padding: 0 .5em;
-    border 1px solid #ddd
-    // border none
-    border-radius .2em
-    outline-color #42b983
-    margin .5em 0
-    // box-shadow: 0 0 1px rgba(0,0,0,0.25)
+    width 15em
+    padding 0 8px;
+    border 1px solid #d1d5da
+    border-radius 5px
+    outline none
 </style>
 

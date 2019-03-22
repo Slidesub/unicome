@@ -11,10 +11,11 @@
 <script>
 import UConfirm from '@/components/u-confirm'
 import UDialog from '@/components/u-dialog'
-import UInput from '@/components/u-input'
+// import UInput from '@/components/u-input'
 import UButton from '@//components/u-button'
 import UCodeMirror from '@/components/u-codemirror'
 import uMultipleSelect from '@/components/u-multiple-select'
+import UInput from 'unicome-ui/src/components/u-input/index'
 export default {
     components: {
         UConfirm,

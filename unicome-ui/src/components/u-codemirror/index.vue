@@ -1,8 +1,6 @@
 <template>
-    <div class="u-code-mirror">
-        <div class="code-mirror-class">
-            <textarea ref="editor" :value="values"></textarea>
-        </div>
+    <div class="u-codemirror">
+        <textarea ref="editor" :value="values"></textarea>
     </div>
 </template>
 <script>
@@ -51,11 +49,9 @@ export default {
 <style lang="stylus" scoped>
 @import '~codemirror/lib/codemirror.css'
 
-.u-code-mirror
-    font-size 16px
-.code-mirror-class
-    border 1px solid #2c3e50
-    border-radius .2em
-    margin .5em 0
+.u-codemirror
+    font-size inherit
+    border 1px solid #d1d5da
+    border-radius 5px
 </style>
 
