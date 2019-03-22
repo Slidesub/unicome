@@ -1,7 +1,6 @@
 <template>
     <div class="u-multiple-select" ref="multipleSelect" @click="dropdown()">
         <div class="label-wrap" ref="selected">
-            {{selected.toString() || placeholder}}
         </div>
         <div ref="dropdown" class="dropdown-wrap" v-show="isShow">
             <u-options @select="change"></u-options>
@@ -38,6 +37,17 @@ export default {
     },
     methods: {
         dropdown () {
+            let bottom = document.querySelector('.u-multiple-select').offsetTop + document.querySelector('.u-multiple-select').clientHeight + '2em';
+            // document.querySelector('.dropdown-wrap').clientHeight
+            if (bottom > window.innerHeight) {
+                this.$refs.dropdown.style.marginTop = '-5px';
+                this.$refs.dropdown.style.top = 'auto';
+                this.$refs.dropdown.style.bottom = '2em';
+            } else {
+                this.$refs.dropdown.style.marginTop = '5px';
+                this.$refs.dropdown.style.bottom = 'auto';
+                this.$refs.dropdown.style.top = '2em';
+            }
             if (!this.isShow) {
                 this.isShow = true;
             }
@@ -72,15 +82,15 @@ export default {
             let removed = (' ' + obj.className.replace(/(\s+)/gi, ' ') + ' ').replace(' ' + cls + ' ', '');
             obj.className = removed.replace(/(^\s+)|(\s+$)/g, '');
         },
-        showSelectedValue() {
+        getSelectedValue() {
             let that = this;
-            let selectedValue = '';
+            let selectedList = [];
             document.querySelectorAll('.option').forEach(option => {
                 if (this.selected.indexOf(option.getAttribute('data-value')) > -1) {
-                    selectedValue += selectedValue === ''? option.innerText : ', ' + option.innerText;
+                    selectedList.push(option.innerText);
                 }
             });
-            this.$refs.selected.innerHTML = selectedValue;
+            return selectedList.toString() || this.placeholder;
         },
         addListener() {
             let that = this;
@@ -94,18 +104,19 @@ export default {
     computed: {
     },
     mounted () {
-        this.showSelectedValue();
         this.addListener();
+        this.$refs.selected.innerHTML = this.getSelectedValue();
     },
     watch: {
         selected (data) {
-            this.showSelectedValue();
+            this.$refs.selected.innerHTML = this.getSelectedValue();
         }
     }
 }
 </script>
 <style lang="stylus" scoped>
 .u-multiple-select
+    position relative
     font-size inherit
     width 15em
     height 2em
@@ -115,13 +126,35 @@ export default {
     .label-wrap
         height 2em
         line-height 2em
-        padding 0 8px
+        padding 0 16px 0 8px
+        position relative
+        overflow hidden
+        text-overflow ellipsis
+        white-space nowrap
+    .label-wrap:after
+        content ""
+        position absolute
+        border-style solid
+        border-color transparent transparent transparent #333
+        transform rotate(270deg)
+        right 8px
+        top 0
+        bottom 0
+        margin auto 0
+        width 0
+        height 0;
+        border-top 4px solid transparent;
+        border-left 0px solid transparent;
+        border-bottom 4px solid transparent;
+        border-right 8px solid #333;
     .dropdown-wrap
+        position absolute
         margin-top 5px
         border 1px solid #d1d5da
         border-radius 5px
         padding 0 8px
         overflow auto
+        background-color #fff
         .options
             max-height 10em
             .optgroup-label
