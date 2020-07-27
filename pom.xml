@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>unicome-ui</module>
+<!--        <module>unicome-ui</module>-->
         <module>unicome-eureka</module>
         <module>unicome-proxy</module>
         <module>unicome-oauth</module>
@@ -48,6 +48,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
         </dependency>
         <!--热启动-->
         <dependency>

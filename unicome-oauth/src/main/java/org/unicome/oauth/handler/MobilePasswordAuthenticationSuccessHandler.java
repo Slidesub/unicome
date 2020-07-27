@@ -1,6 +1,0 @@
-package org.unicome.oauth.handler;
-
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-
-public class MobilePasswordAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-}

@@ -1,0 +1,9 @@
+spring:
+  devtools:
+    restart:
+      enable: false # 关闭自动重启
+    livereload:
+      enable: true # 开启热加载
+    data:
+      mongodb:
+        uri: mongodb://172.26.3.33:27017/unicome_auth

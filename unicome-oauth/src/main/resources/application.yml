@@ -1,17 +1,21 @@
 server:
   port: 9992
   servlet:
-    context-path: /oauth2
+    context-path: /auth
+    session:
+      timeout: 60
   use-forward-headers: true
 
 spring:
+  profiles:
+    active: dev
   application:
     name: unicome-oauth
   mvc:
     static-path-pattern: /public/**
   messages:
     basename: i18n/messages
-    cache-seconds: 3600
+    cache-duration: 3600
     encoding: UTF-8
   thymeleaf:
     cache: false
@@ -20,25 +24,24 @@ spring:
     encoding: UTF-8
     content-type: text/html
     mode: HTML5
-  devtools:
-    restart:
-      enable: false # 关闭自动重启
-    livereload:
-      enable: true # 开启热加载
-  data:
-    mongodb:
-      uri: mongodb://52.69.9.211:27017/unicome_auth
 
-eureka:
-  instance:
-#    prefer-ip-address: true
-    hostname: localhost
-    port: 8761
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-#    register-with-eureka: true # 向服务中心注册自己
-#    fetch-registry: true # 检索服务
+
+#  cache:
+#    type: ehcache
+#    ehcache:
+#      config: classpath:profiles/ehcache.xml
+
+#eureka:
+#  instance:
+##    prefer-ip-address: true
+#    hostname: localhost
+#    port: 8761
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+##    register-with-eureka: true # 向服务中心注册自己
+##    fetch-registry: true # 检索服务
+
 
 security:
   basic:
@@ -47,7 +50,6 @@ security:
 #    loginPath: /login
   ignored: /css/**,/js/**,/favicon.ico,/webjars/**
 
-# 自定义
-
 logging:
   level.org.springframework.security: DEBUG
+  level.org.springframework.data.mongodb.core: DEBUG

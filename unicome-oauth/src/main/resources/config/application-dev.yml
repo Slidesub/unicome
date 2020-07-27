@@ -1,0 +1,11 @@
+spring:
+  devtools:
+    restart:
+      enable: false # 关闭自动重启
+    livereload:
+      enable: true # 开启热加载
+  jpa:
+    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/local
