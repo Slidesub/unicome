@@ -14,17 +14,17 @@ public class Group extends Base {
     @Id
     private String id;
     private String name;
-    private Integer status;
+    private Boolean enabled;
     private String remake;
 
     private Set<Role> roles; // 组拥有的角色
 
     @PersistenceConstructor
-    public Group(String id, String name, Integer status, String remake) {
+    public Group(String id, String name, Boolean enabled, String remake) {
         super();
         this.id = id;
         this.name = name;
-        this.status = status;
+        this.enabled = enabled;
         this.remake = remake;
     }
 }

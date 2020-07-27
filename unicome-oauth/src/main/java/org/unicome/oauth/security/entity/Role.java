@@ -15,19 +15,17 @@ public class Role extends Base implements GrantedAuthority {
     @Id
     private String id;
     private String name; // ROLE_
-    private Integer status;
+    private Boolean enabled;
     private String remake;
 
-//    private Set<Authority> authorities; // 角色拥有的权限
-    private Set<Operation> authorities; // 角色拥有的权限
-
+    private Set<Authority> authorities; // 角色拥有的权限
 
     @PersistenceConstructor
-    public Role(String id, String name, Integer status, String remake) {
+    public Role(String id, String name, Boolean enabled, String remake) {
         super();
         this.id = id;
         this.name = name;
-        this.status = status;
+        this.enabled = enabled;
         this.remake = remake;
     }
 
