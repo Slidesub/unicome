@@ -22,14 +22,9 @@ public class VerifyCodeController {
     @Autowired
     SecurityConsts securityConsts;
 
-    @Autowired
-    UserService userService;
-
     @GetMapping("/img/code")
     public void verifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        User user = userService.loadUserByUsername("gerald");
-        System.out.println(securityConsts.emailLoginUrl);
         imgVerifyCodeGenerator.setLength(3);
         ImgVerifyCode g = (ImgVerifyCode) imgVerifyCodeGenerator.generate();
         ImageIO.write(g.getImage(), "jpeg", response.getOutputStream());

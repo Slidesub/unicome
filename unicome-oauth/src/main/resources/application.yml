@@ -6,6 +6,7 @@ server:
       timeout: 60
   use-forward-headers: true
 
+
 spring:
   profiles:
     active: dev
@@ -49,7 +50,19 @@ security:
 #  sso: #  sso单点登陆
 #    loginPath: /login
   ignored: /css/**,/js/**,/favicon.ico,/webjars/**
-
+  oauth2:
+    client:
+      client-id: client1
+      client-secret: secret1
+      scope: app
+      access-token-uri: http://localhost:9992/auth/oauth/token
+      user-authorization-uri: http://localhost:9992/auth/oauth/authorize
 logging:
   level.org.springframework.security: DEBUG
   level.org.springframework.data.mongodb.core: DEBUG
+
+encrypt:
+  key-store:
+    alias: mytest
+    location: mytest.jks
+    secret: mypass

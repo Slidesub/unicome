@@ -12,10 +12,10 @@ public class Base implements Serializable {
     private Date createDate;
     @Field("update_date")
     private Date updateDate;
-
-    public Base(Date createDate, Date updateDate) {
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-    }
+//
+//    public Base(Date createDate, Date updateDate) {
+//        this.createDate = createDate;
+//        this.updateDate = updateDate;
+//    }
 
 }

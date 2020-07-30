@@ -2,24 +2,16 @@ package org.unicome.oauth.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.session.ConcurrentSessionFilter;
 import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
@@ -28,15 +20,12 @@ import org.unicome.oauth.security.auth.email.EmailPasswordAuthenticationProvider
 import org.unicome.oauth.security.auth.mobile.MobilePasswordAuthenticationFilter;
 import org.unicome.oauth.security.auth.mobile.MobilePasswordAuthenticationProvider;
 import org.unicome.oauth.security.auth.sms.SmsAuthenticationFilter;
-import org.unicome.oauth.security.auth.sms.SmsAuthenticationProvider;
 import org.unicome.oauth.security.constant.SecurityConsts;
 import org.unicome.oauth.security.repository.MongoTokenRepositoryImpl;
 import org.unicome.oauth.security.service.UserService;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
-@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -52,8 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-            .antMatchers(securityConsts.whiteList()).permitAll() // 以上配置的URL不需要认证就可以访问
+            .authorizeRequests().antMatchers(securityConsts.whiteList()).permitAll() // 以上配置的URL不需要认证就可以访问
             .anyRequest().authenticated() // 其他尚未匹配的URL都需进行认证
             // 开启表单登录
             .and()
@@ -67,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(tokenRepository()) // 持久化
                 .tokenValiditySeconds(securityConsts.getRememberMeTimeout()) // 过期时间，单位s
                 .userDetailsService(username -> userService.loadUserByUsername(username)) // 自动登录
+            // session策略
             .and()
                 .sessionManagement()
                 .invalidSessionUrl(securityConsts.getDefaultLoginUrl()) // session超时跳向的url
@@ -85,14 +74,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .httpBasic();
 
-        // session配置
-//        http.headers().frameOptions().disable(); // 解决不允许显示iFream的问题
-//        http.addFilterAt(new ConcurrentSessionFilter(sessionRegistry(), sessionInformationExpiredStrategy()), ConcurrentSessionFilter.class);
-
-//        // 配置异常处理
-    //        http.exceptionHandling().defaultAuthenticationEntryPointFor();
-
-//        http.addFilterAt(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(emailPasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(mobilePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(smsAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -123,16 +104,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        smsAuthenticationProvider.setUserDetailsService(mobile -> userService.loadUserByMobile(mobile));
 //        auth.authenticationProvider(smsAuthenticationProvider);
     }
-
-    // 设置 session策略
-//    @Bean
-//    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
-//        UsernamePasswordAuthenticationFilter filter = new CuzUsernamePasswordAuthenticationFilter();
-//        filter.setUsernameParameter("u");
-//        filter.setAuthenticationManager(authenticationManager());
-//        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry()));
-//        return filter;
-//    }
 
     @Bean
     public EmailPasswordAuthenticationFilter emailPasswordAuthenticationFilter() throws Exception {
@@ -182,59 +153,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new SessionRegistryImpl();
 //    }
 
+    /**
+     * redis存储session
+     * @return
+     */
     @Bean
     public SpringSessionBackedSessionRegistry sessionRegistry() {
         return new SpringSessionBackedSessionRegistry(sessionRepository);
     }
-//
-//    @Bean
-//    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy() {
-//        // TODO session过期后跳转
-//        return new SimpleRedirectSessionInformationExpiredStrategy("/loign");
-//    }
-
-    /**
-     * Http Basic
-     */
-//    @Configuration
-//    @Order(1)
-//    public static class HttpBasicWebSecurityConfig extends WebSecurityConfigurerAdapter {
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//            http
-//                .authorizeRequests()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                .httpBasic();
-//        }
-//        @Override
-//        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//            auth.inMemoryAuthentication()
-//                    .passwordEncoder(new BCryptPasswordEncoder())
-//                    .withUser("test")
-//                    .password(new BCryptPasswordEncoder().encode("test"))
-//                    .roles("USER");
-//        }
-//    }
-
-    /**
-     * Form Login
-     */
-//    public static class FormLoginWebSecurityConfig extends  WebSecurityConfigurerAdapter {
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//            http
-//                .authorizeRequests()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                .formLogin();
-//        }
-//        @Bean
-//        public UserDetailsService userDetailsService() {
-//            User.UserBuilder users = User.withDefaultPasswordEncoder();
-//            InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//            manager.createUser(users.username("admin").password("admin").roles("USER","ADMIN").build());
-//            return manager;
-//        }
-//    }
 }

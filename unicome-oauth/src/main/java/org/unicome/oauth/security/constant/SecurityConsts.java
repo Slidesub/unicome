@@ -62,7 +62,7 @@ public class SecurityConsts {
                 "/oauth/token_key",
                 "/oauth/check_token",
                 "/oauth/confirm_access",
-                "/oauth/authorize",
+                "/oauth/**",
                 "/img/code"
         };
     }

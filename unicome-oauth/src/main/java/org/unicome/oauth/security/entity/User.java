@@ -1,6 +1,5 @@
 package org.unicome.oauth.security.entity;
 
-import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,8 +9,10 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
+/**
+ * 用户主表
+ */
 @Document(collection = "user")
 public class User extends org.springframework.security.core.userdetails.User {
 
@@ -24,10 +25,6 @@ public class User extends org.springframework.security.core.userdetails.User {
     private Date createDate;
     @Field("update_date")
     private Date updateDate;
-
-    private Set<Group> groups; // 用户拥有的组
-    private Set<Role> roles; // 用户拥有的角色
-
 
     @PersistenceConstructor
     public User(String id, String nickname,

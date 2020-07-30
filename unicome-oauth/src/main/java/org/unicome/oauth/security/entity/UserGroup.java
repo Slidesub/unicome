@@ -3,6 +3,7 @@ package org.unicome.oauth.security.entity;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,20 +16,22 @@ public class UserGroup extends Base {
 
     @Id
     private String id;
+    @DBRef
     @Field("user_id")
-    private String userId;
+    private User user;
+    @DBRef
     @Field("group_id")
-    private String groupId;
+    private Group group;
     private Boolean enabled;
-    private String remake;
+    private String remark;
 
     @PersistenceConstructor
-    public UserGroup(String id, String userId, String groupId, Boolean enabled, String remake) {
+    public UserGroup(String id, User user, Group group, Boolean enabled, String remark) {
         super();
         this.id = id;
-        this.userId = userId;
-        this.groupId = groupId;
+        this.user = user;
+        this.group = group;
         this.enabled = enabled;
-        this.remake = remake;
+        this.remark = remark;
     }
 }

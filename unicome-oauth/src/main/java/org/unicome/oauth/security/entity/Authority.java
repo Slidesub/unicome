@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 
+/**
+ * 权限主表
+ */
 @Data
 @Document(collection = "authority")
 public class Authority implements GrantedAuthority {
@@ -14,19 +17,18 @@ public class Authority implements GrantedAuthority {
     private String id;
     private String name;
     private Boolean enabled;
-    private String remake;
+    private String remark;
 
     @PersistenceConstructor
-    public Authority(String id, String name, Boolean enabled, String remake) {
-        Assert.hasText(name, "A granted authority textual representation is required");
+    public Authority(String id, String name, Boolean enabled, String remark) {
         this.id = id;
         this.name = name;
         this.enabled = enabled;
-        this.remake = remake;
+        this.remark = remark;
     }
 
     @Override
     public String getAuthority() {
-        return id;
+        return name;
     }
 }

@@ -23,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
             Client client = clientRepository.findByClientId(clientId);
             return client;
         } catch (Exception e) {
-//            log.error("Error occurred!", e);
+            log.error("Error occurred!", e);
         }
         return null;
     }
