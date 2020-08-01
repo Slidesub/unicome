@@ -1,9 +1,8 @@
 package org.unicome.oauth.security.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.unicome.oauth.security.entity.UserGroup;
+import org.unicome.oauth.security.domain.UserGroup;
 
 import java.util.List;
 

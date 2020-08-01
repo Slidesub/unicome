@@ -1,8 +1,8 @@
 package org.unicome.oauth.security.service;
 
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.unicome.oauth.security.entity.Client;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.unicome.oauth.security.domain.Client;
 
-public interface ClientService extends ClientDetailsService {
-    Client findByClientId(String clientId);
+public interface ClientService {
+    Client loadByClientId(String clientId) throws ClientRegistrationException;
 }

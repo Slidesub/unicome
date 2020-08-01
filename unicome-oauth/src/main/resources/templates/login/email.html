@@ -12,7 +12,7 @@
     <h1>邮箱密码认证</h1>
 </header>
 <main>
-    <form th:action="@{${@securityConsts.getEmailLoginUrl()}}" method="POST">
+    <form th:action="@{${@securityConstants.getEmailLoginUrl()}}" method="POST">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div th:if="${ not #strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION)}">
             Your login attempt was not successful, try again.<br/>

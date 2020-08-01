@@ -2,15 +2,11 @@ package org.unicome.oauth.security.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.unicome.oauth.security.entity.*;
+import org.unicome.oauth.security.domain.*;
 import org.unicome.oauth.security.repository.*;
 import org.unicome.oauth.security.service.UserService;
 
@@ -60,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
             String roleNames = roles.parallelStream().map(role -> role.getName()).collect(Collectors.joining(this.delimiter));
             if(!StringUtils.isEmpty(roleNames)) {
-                user.getAuthorities().addAll(AuthorityUtils.commaSeparatedStringToAuthorityList(roleNames));
+                user.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(roleNames));
             }
             return user;
 //        } catch (UsernameNotFoundException e) {

@@ -1,7 +1,7 @@
 package org.unicome.oauth.security.service;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.unicome.oauth.security.entity.User;
+import org.unicome.oauth.security.domain.User;
 
 public interface UserService {
     User loadUserByUsername(String username) throws UsernameNotFoundException;

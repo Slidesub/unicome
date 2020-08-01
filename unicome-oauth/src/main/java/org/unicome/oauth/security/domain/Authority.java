@@ -1,4 +1,4 @@
-package org.unicome.oauth.security.entity;
+package org.unicome.oauth.security.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -6,26 +6,23 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Set;
+import java.util.Date;
 
 /**
- * 角色主表
+ * 权限主表
  */
 @Data
-@Document(collection = "role")
-public class Role extends Base implements GrantedAuthority {
-
+@Document(collection = "authority")
+public class Authority extends Base implements GrantedAuthority {
     @Id
     private String id;
-    private String name; // ROLE_
+    private String name;
     private Boolean enabled;
     private String remark;
 
-    private Set<Authority> authorities; // 角色拥有的权限
-
     @PersistenceConstructor
-    public Role(String id, String name, Boolean enabled, String remark) {
-        super();
+    public Authority(String id, String name, Boolean enabled, String remark, Date createDate, Date updateDate) {
+        super(createDate, updateDate);
         this.id = id;
         this.name = name;
         this.enabled = enabled;
@@ -34,7 +31,6 @@ public class Role extends Base implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        // 返回角色的名字
         return name;
     }
 }

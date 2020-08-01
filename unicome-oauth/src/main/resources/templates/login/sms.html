@@ -12,7 +12,7 @@
     <h1>手机短信认证</h1>
 </header>
 <main>
-    <form th:action="@{${@securityConsts.getSmsLoginUrl()}}" method="POST">
+    <form th:action="@{${@securityConstants.getSmsLoginUrl()}}" method="POST">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div th:if="${ not #strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION)}">
             Your login attempt was not successful, try again.<br/>

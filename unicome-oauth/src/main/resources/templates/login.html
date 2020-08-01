@@ -12,7 +12,7 @@
         <h1>用户登录</h1>
     </header>
     <main>
-        <form th:action="@{${@securityConsts.getDefaultLoginUrl()}}" method="POST">
+        <form th:action="@{${@securityConstants.getDefaultLoginUrl()}}" method="POST">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div th:if="${param.error != null}">
                 [[${session.SPRING_SECURITY_LAST_EXCEPTION}]]
@@ -23,9 +23,9 @@
             <div><label> <input type="checkbox" name="remember-me"/> 记住我</label></div>
             <input type="submit" value="Log in"/>
         </form>
-        <a th:href="@{${@securityConsts.getSmsLoginPageUrl()}}">手机短信登录</a>
-        <a th:href="@{${@securityConsts.getMobileLoginPageUrl()}}">手机密码登录</a>
-        <a th:href="@{${@securityConsts.getEmailLoginPageUrl()}}">邮箱密码登录</a>
+        <a th:href="@{${@securityConstants.getSmsLoginPageUrl()}}">手机短信登录</a>
+        <a th:href="@{${@securityConstants.getMobileLoginPageUrl()}}">手机密码登录</a>
+        <a th:href="@{${@securityConstants.getEmailLoginPageUrl()}}">邮箱密码登录</a>
     </main>
     <footer>
         Copyright © 2018

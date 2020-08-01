@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
-import org.unicome.oauth.security.constant.SecurityConsts;
+import org.unicome.oauth.security.constant.SecurityConstants;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private boolean postOnly = true;
 
     @Autowired
-    SecurityConsts securityConsts;
+    SecurityConstants securityConstants;
 
     /***
      * constructor
@@ -38,7 +38,7 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     @PostConstruct
     protected void filterProcessesUrl() {
-        super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(securityConsts.getSmsLoginUrl(), "POST"));
+        super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(securityConstants.getSmsLoginUrl(), "POST"));
     }
 
     @Override

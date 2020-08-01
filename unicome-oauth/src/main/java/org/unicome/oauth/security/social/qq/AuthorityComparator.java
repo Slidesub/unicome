@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
-import org.unicome.oauth.security.entity.Authority;
+import org.unicome.oauth.security.domain.Authority;
 
 import java.io.Serializable;
 import java.util.Collection;

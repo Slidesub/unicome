@@ -13,7 +13,9 @@ spring:
   application:
     name: unicome-oauth
   mvc:
-    static-path-pattern: /public/**
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
   messages:
     basename: i18n/messages
     cache-duration: 3600
@@ -49,7 +51,7 @@ security:
     enabled: false # 关闭http basic认证
 #  sso: #  sso单点登陆
 #    loginPath: /login
-  ignored: /css/**,/js/**,/favicon.ico,/webjars/**
+  ignored: /static/**,/favicon.ico,/webjars/**
   oauth2:
     client:
       client-id: client1

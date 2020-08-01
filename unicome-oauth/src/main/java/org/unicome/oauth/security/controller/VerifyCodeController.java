@@ -3,9 +3,7 @@ package org.unicome.oauth.security.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.unicome.oauth.security.constant.SecurityConsts;
-import org.unicome.oauth.security.entity.User;
-import org.unicome.oauth.security.service.UserService;
+import org.unicome.oauth.security.constant.SecurityConstants;
 import org.unicome.oauth.security.verifycode.ImgVerifyCode;
 import org.unicome.oauth.security.verifycode.ImgVerifyCodeGenerator;
 
@@ -20,7 +18,7 @@ public class VerifyCodeController {
     @Autowired
     ImgVerifyCodeGenerator imgVerifyCodeGenerator;
     @Autowired
-    SecurityConsts securityConsts;
+    SecurityConstants securityConstants;
 
     @GetMapping("/img/code")
     public void verifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -1,4 +1,4 @@
-package org.unicome.oauth.security.entity;
+package org.unicome.oauth.security.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -6,6 +6,8 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.Date;
 
 /**
  * 中间表：用户-角色 表
@@ -26,8 +28,8 @@ public class UserRole extends Base {
     private String remark;
 
     @PersistenceConstructor
-    public UserRole(String id, User user, Role role, Boolean enabled, String remark) {
-        super();
+    public UserRole(String id, User user, Role role, Boolean enabled, String remark, Date createDate, Date updateDate) {
+        super(createDate, updateDate);
         this.id = id;
         this.user = user;
         this.role = role;

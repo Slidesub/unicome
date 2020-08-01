@@ -1,26 +1,34 @@
-package org.unicome.oauth.security.entity;
+package org.unicome.oauth.security.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.util.Assert;
+
+import java.util.Date;
+import java.util.Set;
 
 /**
- * 权限主表
+ * 角色主表
  */
 @Data
-@Document(collection = "authority")
-public class Authority implements GrantedAuthority {
+@Document(collection = "role")
+public class Role extends Base implements GrantedAuthority {
+
     @Id
     private String id;
-    private String name;
+    private String name; // ROLE_
     private Boolean enabled;
     private String remark;
 
+    @Transient
+    private Set<Authority> authorities;
+
     @PersistenceConstructor
-    public Authority(String id, String name, Boolean enabled, String remark) {
+    public Role(String id, String name, Boolean enabled, String remark, Date createDate, Date updateDate) {
+        super(createDate, updateDate);
         this.id = id;
         this.name = name;
         this.enabled = enabled;

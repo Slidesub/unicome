@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
-import org.unicome.oauth.security.constant.SecurityConsts;
+import org.unicome.oauth.security.constant.SecurityConstants;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -25,7 +25,7 @@ public class MobilePasswordAuthenticationFilter extends AbstractAuthenticationPr
     private boolean postOnly = true;
 
     @Autowired
-    SecurityConsts securityConsts;
+    SecurityConstants securityConstants;
 
     public MobilePasswordAuthenticationFilter() {
         super("/login");
@@ -33,7 +33,7 @@ public class MobilePasswordAuthenticationFilter extends AbstractAuthenticationPr
 
     @PostConstruct
     protected void filterProcessesUrl() {
-        super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(securityConsts.getMobileLoginUrl(), "POST"));
+        super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(securityConstants.getMobileLoginUrl(), "POST"));
     }
 
     @Override

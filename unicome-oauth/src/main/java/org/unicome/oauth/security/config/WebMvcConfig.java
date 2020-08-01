@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.unicome.oauth.security.constant.SecurityConsts;
+import org.unicome.oauth.security.constant.SecurityConstants;
 
 /**
  * WebMvcConfigurerAdapter已失效，推荐使用WebMvcConfigurer
@@ -14,17 +14,17 @@ import org.unicome.oauth.security.constant.SecurityConsts;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
-    SecurityConsts securityConsts;
+    SecurityConstants securityConstants;
     /**
      * 视图跳转控制器
      * @param registry
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(securityConsts.getDefaultLoginPageUrl()).setViewName("login");
-        registry.addViewController(securityConsts.getEmailLoginPageUrl()).setViewName("login/email");
-        registry.addViewController(securityConsts.getMobileLoginPageUrl()).setViewName("login/mobile");
-        registry.addViewController(securityConsts.getSmsLoginPageUrl()).setViewName("login/sms");
+        registry.addViewController(securityConstants.getDefaultLoginPageUrl()).setViewName("login");
+        registry.addViewController(securityConstants.getEmailLoginPageUrl()).setViewName("login/email");
+        registry.addViewController(securityConstants.getMobileLoginPageUrl()).setViewName("login/mobile");
+        registry.addViewController(securityConstants.getSmsLoginPageUrl()).setViewName("login/sms");
         registry.addViewController("/index").setViewName("index");
     }
 

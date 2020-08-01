@@ -1,4 +1,4 @@
-package org.unicome.oauth.security.entity;
+package org.unicome.oauth.security.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -7,31 +7,33 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 /**
- * 中间表：组 - 角色 表
+ * 中间表：角色 - 权限 表
  */
 @Data
-@Document(collection = "group_role")
-public class GroupRole extends Base {
+@Document(collection = "role_authority")
+public class RoleAuthority extends Base {
 
     @Id
     private String id;
     @DBRef
-    @Field("group_id") // 引用了另一个文档，该字段存储引用文档的 _id（ObjectId）
-    private Group group;
-    @DBRef
     @Field("role_id")
     private Role role;
+    @DBRef
+    @Field("authority_id")
+    private Authority authority;
     private Boolean enabled;
-    private String remake;
+    private String remark;
 
     @PersistenceConstructor
-    public GroupRole(String id, Group group, Role role, Boolean enabled, String remake) {
-        super();
+    public RoleAuthority(String id, Role role, Authority authority, Boolean enabled, String remark, Date createDate, Date updateDate) {
+        super(createDate, updateDate);
         this.id = id;
-        this.group = group;
         this.role = role;
+        this.authority = authority;
         this.enabled = enabled;
-        this.remake = remake;
+        this.remark = remark;
     }
 }
