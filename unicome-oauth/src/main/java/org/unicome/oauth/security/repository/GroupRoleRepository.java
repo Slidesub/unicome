@@ -6,7 +6,7 @@ import org.unicome.oauth.security.domain.GroupRole;
 
 import java.util.List;
 
-@Repository
+@Repository("groupRoleRepository")
 public interface GroupRoleRepository extends MongoRepository<GroupRole, String> {
 
     List<GroupRole> findByGroupIdIn(List<String> groupIds);

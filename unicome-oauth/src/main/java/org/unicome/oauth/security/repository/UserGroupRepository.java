@@ -6,7 +6,7 @@ import org.unicome.oauth.security.domain.UserGroup;
 
 import java.util.List;
 
-@Repository
+@Repository("userGroupRepository")
 public interface UserGroupRepository extends MongoRepository<UserGroup, String> {
 
     List<UserGroup> findByUserId(String userId);

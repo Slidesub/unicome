@@ -22,6 +22,7 @@ import java.util.Set;
 @Getter
 public class SecurityConstants {
 
+    public static final String demo = "";
     @Value("${default.login-url:/sign_in}")
     private  String defaultLoginUrl;
     @Value("${default.login-page-url:/sign_in}")

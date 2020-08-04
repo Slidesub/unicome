@@ -6,7 +6,7 @@ import org.unicome.oauth.security.domain.UserRole;
 
 import java.util.List;
 
-@Repository
+@Repository("userRoleRepository")
 public interface UserRoleRepository extends MongoRepository<UserRole, String> {
 
     List<UserRole> findByUserId(String userId);

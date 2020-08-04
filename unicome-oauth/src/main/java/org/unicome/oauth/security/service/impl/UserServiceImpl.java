@@ -2,86 +2,128 @@ package org.unicome.oauth.security.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.unicome.oauth.security.domain.*;
 import org.unicome.oauth.security.repository.*;
+import org.unicome.oauth.security.service.GroupService;
+import org.unicome.oauth.security.service.RoleService;
 import org.unicome.oauth.security.service.UserService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
-
 
     private final String delimiter = ",";
 
-    @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+    private RoleService roleService;
+    private GroupService groupService;
 
     @Autowired
-    GroupRepository groupRepository;
+    @Qualifier("userRepository")
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Autowired
-    RoleRepository roleRepository;
+    @Qualifier("roleService")
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Autowired
-    UserGroupRepository userGroupRepository;
-
-    @Autowired
-    GroupRoleRepository groupRoleRepository;
-
-    @Autowired
-    UserRoleRepository userRoleRepository;
+    @Qualifier("groupService")
+    public void setGroupService(GroupService groupService) {
+        this.groupService = groupService;
+    }
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-//        try {
-            User user = userRepository.findByUsername(username);
-            if (null == user) throw new UsernameNotFoundException("user[] is not exists.");
-//            Assert.notNull(user, "user is null");
-            Set<Role> roles = new HashSet<>();
-            List<UserGroup> userGroupList = userGroupRepository.findByUserId(user.getId());
-            List<String> groupIds = userGroupList.stream().map(userGroup -> userGroup.getGroup().getId()).collect(Collectors.toList());
-            List<GroupRole> groupRoleList = groupRoleRepository.findByGroupIdIn(groupIds);
-            List<Role> roleList = groupRoleList.stream().map(groupRole -> groupRole.getRole()).collect(Collectors.toList());
-
-            List<UserRole> userRoleList = userRoleRepository.findByUserId(user.getId());
-            roleList.addAll(userRoleList.stream().map(userRole -> userRole.getRole()).collect(Collectors.toList()));
-            roles.addAll(roleList);
-
-            String roleNames = roles.parallelStream().map(role -> role.getName()).collect(Collectors.joining(this.delimiter));
-            if(!StringUtils.isEmpty(roleNames)) {
-                user.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(roleNames));
+        try {
+            if (!StringUtils.isEmpty(username)) {
+                User user = userRepository.findByUsername(username);
+                // 获取用户角色
+                if (null != user) {
+                    List<GrantedAuthority> authorities = this.grantedAuthorities(user.getId());
+                    if (!CollectionUtils.isEmpty(authorities)) {
+                        user.setAuthorities(authorities);
+                    }
+                }
+                return user;
             }
-            return user;
-//        } catch (UsernameNotFoundException e) {
-//            log.error("", e);
-//            throw e;
-//        }
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(e.getMessage());
+        }
+        return null;
     }
 
     @Override
     public User loadUserByEmail(String email) throws UsernameNotFoundException {
         try {
-            User user = userRepository.findByUsername(email);
-            return user;
-        } catch (UsernameNotFoundException e) {
-            log.error("", e);
-            throw e;
+            if (!StringUtils.isEmpty(email)) {
+                User user = userRepository.findByEmail(email);
+                // 获取用户角色
+                if (null != user) {
+                    List<GrantedAuthority> authorities = this.grantedAuthorities(user.getId());
+                    if (!CollectionUtils.isEmpty(authorities)) {
+                        user.setAuthorities(authorities);
+                    }
+                }
+                return user;
+            }
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(e.getMessage());
         }
+        return null;
     }
 
     @Override
     public User loadUserByMobile(String mobile) throws UsernameNotFoundException {
-        if (!StringUtils.isEmpty(mobile)) {
-            User user = userRepository.findByMobile(mobile);
-            return user;
+        try {
+            if (!StringUtils.isEmpty(mobile)) {
+                User user = userRepository.findByMobile(mobile);
+                // 获取用户角色
+                if (null != user) {
+                    List<GrantedAuthority> authorities = this.grantedAuthorities(user.getId());
+                    if (!CollectionUtils.isEmpty(authorities)) {
+                        user.setAuthorities(authorities);
+                    }
+                }
+                return user;
+            }
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(e.getMessage());
         }
         return null;
+    }
+
+    protected List<GrantedAuthority> grantedAuthorities(String userId) {
+        if (!StringUtils.isEmpty(userId)) {
+            List<Group> groupList = groupService.listByUserId(userId);
+            if (!CollectionUtils.isEmpty(groupList)) {
+                List<String> groupIdList = groupList.parallelStream().map(group -> group.getId()).collect(Collectors.toList());
+                List<Role> userGroupRoleList = roleService.listByGroupIdIn(groupIdList);
+                List<Role> userRolesList = roleService.listByUserId(userId);
+                Set<Role> roleSet = new HashSet<>();
+                roleSet.addAll(userGroupRoleList);
+                roleSet.addAll(userRolesList);
+                if (!CollectionUtils.isEmpty(roleSet)) {
+                    String roleNames = roleSet.parallelStream().map(role -> role.getName()).collect(Collectors.joining(this.delimiter));
+                    if(!StringUtils.isEmpty(roleNames)) {
+                        return AuthorityUtils.commaSeparatedStringToAuthorityList(roleNames);
+                    }
+                }
+            }
+        }
+        return Collections.emptyList();
     }
 }

@@ -6,7 +6,7 @@ import org.unicome.oauth.security.domain.Group;
 
 import java.util.List;
 
-@Repository
+@Repository("groupRepository")
 public interface GroupRepository extends MongoRepository<Group, String> {
 
     List<Group> findFirstById(String id);

@@ -1,6 +1,7 @@
 package org.unicome.oauth.security.auth.sms;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,8 +23,13 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private String mobileParameter = "mobile";
     private boolean postOnly = true;
 
+    private SecurityConstants securityConstants;
+
     @Autowired
-    SecurityConstants securityConstants;
+    @Qualifier("securityConstants")
+    public void setSecurityConstants(SecurityConstants securityConstants) {
+        this.securityConstants = securityConstants;
+    }
 
     /***
      * constructor

@@ -4,11 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import org.unicome.oauth.security.domain.Role;
 
-import java.util.List;
-import java.util.Set;
-
-@Repository
+@Repository("roleRepository")
 public interface RoleRepository extends MongoRepository<Role, String> {
-
-    List<Role> getByIdIn(Set<String> ids);
 }
