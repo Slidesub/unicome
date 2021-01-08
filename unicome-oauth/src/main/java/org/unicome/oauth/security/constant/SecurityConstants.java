@@ -76,9 +76,13 @@ public class SecurityConstants {
                 this.getDefaultLoginUrl(),
                 this.getEmailLoginUrl(),
                 this.getMobileLoginUrl(),
-                "/static/**",
+                "/actuator/**",
                 "/oauth/**",
-                "/img/code"
+                "/favicon.ico",
+                "/js/**",
+                "/css/**",
+                "/webjars/**",
+                "/verify/code"
         };
     }
 }

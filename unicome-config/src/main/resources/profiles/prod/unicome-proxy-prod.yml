@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: unicome-proxy
+server:
+  port: 9992
+
+zuul:
+  add-host-header: true # 页面重定向时host发生改变
+  ignoredServices: '*'
+  routes:
+#    unicome-oauth:
+#      sensitiveHeaders:
+#      custom-sensitive-headers: true
+#      stripPrefix: false
+#      path: /oauth2/**
+#      serviveId: unicome-oauth
+    unicome-config:
+      path: /config/**
+      service-id: unicome-config
+      stripPrefix: false # 不去除路由前缀
+#    unicome-cms:
+#      sensitiveHeaders:
+#      custom-sensitive-headers: true
+#      stripPrefix: false
+#      path: /cms/**
+#      serviveId: unicome-cms
+
+# Security
+#security:
+#  ignored: /favicon.ico,/js/**,/css/**,/webjars/**
+#  basic:
+#    enabled: false
+#  # Security OAuth2
+#  oauth2:
+#    sso:
+#      loginPath: /login
+#    client:
+#      accessTokenUri: http://unicome-oauth/oauth2/oauth/token
+#      userAuthorizationUri: /oauth2/oauth/authorize
+#      clientId: admin
+#      clientSecret: admin
+#    resource:
+#      userInfoUri: http://unicome-oauth/oauth2/oauth/user
+
+eureka:
+  instance: # 当前Eureka Instance实例配置信息
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    hostname: localhost # 服务注册中心实例的主机名
+  client: # 客户端配置
+    register-with-eureka: true # 是否向服务注册中心注册自己，单机设置为false，集群设置为true
+    fetch-registry: true # 是否检索服务，服务注册中心维护实例，不需要去检索其他服务
+    service-url.defaultZone: http://localhost:8761/eureka/eureka
+
+logging:
+  level.org.springframework.security: DEBUG

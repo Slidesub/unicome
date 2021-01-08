@@ -11,11 +11,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.unicome.oauth.security.constant.SecurityConstants;
-import org.unicome.oauth.security.service.ClientService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -28,7 +28,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    ClientService clientService;
+    ClientDetailsService clientDetailsService;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -38,10 +38,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(clientId -> clientService.loadByClientId(clientId));
+        clients.withClientDetails(clientDetailsService);
 //        clients.inMemory()
-//                .withClient("client1")
-//                .secret(passwordEncoder.encode("secret1"))
+//                .withClient("admin")
+//                .secret(passwordEncoder.encode("admin"))
 //                .scopes("app")
 //                .authorizedGrantTypes("authorization_code", "password", "refresh_token", "client_credentials")
 //                .redirectUris("/");
@@ -96,7 +96,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setReuseRefreshToken(true);
-        tokenServices.setClientDetailsService(clientId -> clientService.loadByClientId(clientId));
+        tokenServices.setClientDetailsService(clientDetailsService);
         return tokenServices;
     }
 }

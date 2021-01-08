@@ -1,0 +1,25 @@
+server:
+    port: 8080
+    servlet.context-path: /sample
+
+spring:
+    application.name: sample
+#    servlet.multipart.enabled: false
+    # ehcache
+    cache:
+        type: ehcache
+        ehcache.config: classpath:ehcache.xml
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+
+# logback
+logging:
+    level:
+        org.unicome.sample: DEBUG
+    path: ./logs
+    name: ${spring.application.name}
+
+debug: true

@@ -2,12 +2,12 @@
 ```
 use unicome_oauth
 
-db.createCollection("user")  
+db.createCollection("userDO")  
 db.createCollection("client")
 db.createCollection("role")
 db.createCollection("resource")
 
-db.user.insertMany([{
+db.userDO.insertMany([{
     "userId": "001",
     "username": "admin001",
     "mobile": "15562305255",
@@ -18,7 +18,7 @@ db.user.insertMany([{
     "updateDate": ISODate("1991-12-31T16:00:00.000Z")
 }])
 
-db.user.insertMany([
+db.userDO.insertMany([
 {
     "clientId": "adminClient",
     "clientSecret": "123456",

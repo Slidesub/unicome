@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="logback"/>
+    <springProperty scope="context" name="log.path" source="logging.path"></springProperty>
+    <springProperty scope="context" name="log.name" source="logging.name"></springProperty>
+
+    <contextName>${appName}</contextName>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- %d:表示日期,%thread:表示线程名,%-5level:日志级别从左显示5个字符宽度,%msg:日志消息,%n:换行符,%logger:日志输出者的名字 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%contextName|%thread|%-5level|%logger{50}|%method|%line - %msg%n</pattern>
+            <!--设置编码-->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件 -->
+        <File>${log.path}/${log.name}.log</File>
+        <!-- 日志记录器的滚动策略, 按日期, 按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/${log.name}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <!-- 日志文件保留天数 -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <!--日志文件输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%contextName|%thread|%-5level|%logger{50}|%method|%line - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+<!--    <appender name="TASK" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        &lt;!&ndash; 日志文件 &ndash;&gt;-->
+<!--        <File>${log.path}/${log.name}.task.log</File>-->
+<!--        &lt;!&ndash; 日志记录器的滚动策略, 按日期, 按大小记录 &ndash;&gt;-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${log.path}/${log.name}.task.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>100MB</maxFileSize>-->
+<!--            &lt;!&ndash; 日志文件保留天数 &ndash;&gt;-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--            <totalSizeCap>20GB</totalSizeCap>-->
+<!--        </rollingPolicy>-->
+<!--        &lt;!&ndash;日志文件输出格式&ndash;&gt;-->
+<!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%contextName|%thread|%-5level|%logger{50}|%method|%line - %msg%n</pattern>-->
+<!--            <charset>UTF-8</charset>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+    <!-- 级别为 debug, 如果不设置, 则使用它的上一层 root 的级别 -->
+    <!-- 不向它的上层 root 传递, 默认为true, 即向root 传递debug及以上级别的信息 -->
+<!--    <logger name="org.unicome.data.resource.controller" level="debug" additivity="false">-->
+<!--        <appender-ref ref="STDOUT"></appender-ref>-->
+<!--        <appender-ref ref="TASK"></appender-ref>-->
+<!--    </logger>-->
+    <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+
+    <!-- root 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"></appender-ref>
+        <appender-ref ref="ROLLING"></appender-ref>
+    </root>
+
+<!--    <springProfile name="dev">-->
+<!--        <logger name="org.unicome.data" level="debug" additivity="false">-->
+<!--            <appender-ref ref="CONSOLE"></appender-ref>-->
+<!--        </logger>-->
+<!--    </springProfile>-->
+<!--    <springProfile name="test">-->
+<!--        <logger name="org.unicome.data" level="debug" additivity="false">-->
+<!--            <appender-ref ref="FILE"></appender-ref>-->
+<!--        </logger>-->
+<!--    </springProfile>-->
+<!--    <springProfile name="staging,prod">-->
+<!--        <logger name="org.unicome.data" level="info" additivity="false">-->
+<!--            <appender-ref ref="FILE"></appender-ref>-->
+<!--        </logger>-->
+<!--    </springProfile>-->
+</configuration>

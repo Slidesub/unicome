@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.unicome.data.domain.mysql.group.GroupDao">
+    <resultMap id="baseGroupResult" type="org.unicome.data.domain.mysql.group.Group">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="name"/>
+        <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+        <result column="hierarchy_code" jdbcType="VARCHAR" property="hierarchyCode"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="extend" jdbcType="VARCHAR" property="extend"/>
+        <result column="is_deleted" jdbcType="BOOLEAN" property="deleted"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="updated_by" jdbcType="VARCHAR" property="updatedBy"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+    <resultMap id="groupMap" type="org.unicome.data.domain.mysql.group.Group" extends="baseGroupMap">
+        <collection property="roles" select="associateRole" column="id"/>
+    </resultMap>
+    <select id="associateRole" parameterType="Integer"
+            resultMap="org.unicome.data.domain.mysql.role.RoleDao.roleMap">
+        SELECT r.* FROM `ROLE` AS r, `GROUP_ROLE` AS gr WHERE r.id = gr.role_id AND gr.group_id = #{id}
+    </select>
+    <select id="associateUser" parameterType="Integer"
+            resultMap="org.unicome.data.domain.mysql.user.UserDao.baseUserMap">
+        SELECT u.* FROM `USER` AS u, `USER_GROUP` AS ug WHERE u.id = ug.user_id AND ug.user_id = #{id}
+    </select>
+    <!-- -->
+    <sql id="base_group_sql">
+        ${alias}.id, ${alias}.name, ${alias}.remark,
+        ${alias}.enabled, ${alias}.create_date, ${alias}.update_date
+    </sql>
+</mapper>

@@ -1,0 +1,7 @@
+spring:
+    profiles.active: dev
+    application.name: unicome-oauth
+    cloud.config: http://127.0.0.1:9001
+    fail-fast: true
+
+server.port: 9002

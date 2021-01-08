@@ -1,0 +1,23 @@
+server:
+  port: 8761
+  servlet.context-path: /eureka
+
+spring.application.name: unicome-eureka
+spring.security:basic:enabled: false
+
+# 详情查看 spring-configuration-metadata.json
+eureka:
+  instance: # 当前Eureka Instance实例配置信息
+    hostname: localhost
+    instance-id: ${spring.cloud.client.ipaddress}:${eureka.instance.appname}:${server.port}
+    prefer-ip-address: true
+  server: # 注册中心配置
+    enable-self-preservation: false # 安全保护机制
+    wait-time-in-ms-when-sync-empty: 0
+    eviction-interval-time-in-ms: 5000
+  client: # 客户端配置
+    register-with-eureka: false # 是否向服务注册中心注册自己，单机设置为false，集群设置为true
+    fetch-registry: false # 是否检索服务，服务注册中心维护实例，不需要去检索其他服务
+    service-url.defaultZone: http://${eureka.instance.hostname}:8761/eureka
+  dashboard: #注册中心仪表盘配置
+    enable: true

@@ -1,0 +1,20 @@
+server:
+    port: 9100
+    servlet.context-path: /data
+
+# spring
+spring:
+    application.name: unicome-data
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/UNICOME_BASIC
+        username: root
+        password: 123456
+    jpa.show-sql: true
+    data.mongodb.uri: mongodb://localhost:27017/UNICOME_BASIC
+
+# mybatis
+mybatis:
+    mapper-locations: classpath:mapper/*.mapper.xml
+    type-aliases-package: org.unicome.data.domain.mysql
+    configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 显示sql

@@ -30,7 +30,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> list(int index, int size) {
-        Pageable pageable = PageRequest.of(index, size, new Sort(Sort.Direction.DESC, new String[] {"updateDate", "createDate"}));
+        Pageable pageable = PageRequest.of(index, size, Sort.by(Sort.Direction.DESC, new String[] {"updateDate",
+                "createDate"}));
         Query query = new Query(Criteria.where("publish").is(true));
         query.with(pageable);
         return mongoTemplate.find(query, Article.class);
@@ -44,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> listByUser(String uid, int index, int size) {
-        Pageable pageable = PageRequest.of(index, size, new Sort(Sort.Direction.DESC, new String[] {"updateDate", "createDate"}));
+        Pageable pageable = PageRequest.of(index, size, Sort.by(Sort.Direction.DESC, new String[] {"updateDate", "createDate"}));
         Query query = new Query(Criteria.where("author").is(new ObjectId(uid)));
         query.with(pageable);
         return mongoTemplate.find(query, Article.class);

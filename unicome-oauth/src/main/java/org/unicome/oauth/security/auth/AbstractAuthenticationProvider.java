@@ -56,7 +56,7 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             try {
                 user = this.retrieveUser(principal, authentication);
             } catch (UsernameNotFoundException var6) {
-                log.debug("User ['" + principal + "'] not found");
+                log.debug("UserDO ['" + principal + "'] not found");
                 if (this.hideUserNotFoundExceptions) {
                     throw new BadCredentialsException(this.messages.getMessage("AbstractAuthenticationProvider.badCredentials", "Bad credentials"));
                 }
@@ -99,8 +99,8 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             @Override
             public void check(UserDetails userDetails) {
                 if (!user.isCredentialsNonExpired()) {
-                    log.debug("User account credentials is expired");
-                    throw new CredentialsExpiredException(messages.getMessage("AbstractAuthenticationProvider.credentialsExpired", "User credentials is expired"));
+                    log.debug("UserDO account credentials is expired");
+                    throw new CredentialsExpiredException(messages.getMessage("AbstractAuthenticationProvider.credentialsExpired", "UserDO credentials is expired"));
                 }
             }
         };
@@ -111,14 +111,14 @@ public abstract class AbstractAuthenticationProvider implements AuthenticationPr
             @Override
             public void check(UserDetails user) {
                 if (!user.isAccountNonLocked()) {
-                    log.debug("User account is locked");
-                    throw new LockedException(messages.getMessage("AbstractAuthenticationProvider.locked", "User account is locked"));
+                    log.debug("UserDO account is locked");
+                    throw new LockedException(messages.getMessage("AbstractAuthenticationProvider.locked", "UserDO account is locked"));
                 } else if (!user.isEnabled()) {
-                    log.debug("User account is disabled");
-                    throw new DisabledException(messages.getMessage("AbstractAuthenticationProvider.disabled", "User account is disabled"));
+                    log.debug("UserDO account is disabled");
+                    throw new DisabledException(messages.getMessage("AbstractAuthenticationProvider.disabled", "UserDO account is disabled"));
                 } else if (!user.isAccountNonExpired()) {
-                    log.debug("User account is expired");
-                    throw new AccountExpiredException(messages.getMessage("AbstractAuthenticationProvider.expired", "User account is expired"));
+                    log.debug("UserDO account is expired");
+                    throw new AccountExpiredException(messages.getMessage("AbstractAuthenticationProvider.expired", "UserDO account is expired"));
                 }
             }
         };

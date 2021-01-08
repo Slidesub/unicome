@@ -2,56 +2,56 @@ spring:
   application:
     name: unicome-proxy
 server:
-  port: 9991
+  port: 80
+  servlet.session.cookie.name: pro
 
-#Zuul
 zuul:
   add-host-header: true # 页面重定向时host发生改变
-  ignoredServices: '*'
+  ignored-services: '*' # 忽略所有服务, 只路由指定的微服务
+  sensitive-headers:
   routes:
-    unicome-oauth:
-      sensitiveHeaders:
-      custom-sensitive-headers: true
-      stripPrefix: false
-      path: /oauth2/**
+    unicome-oauth: # 路由名
+      path: /auth/**
       serviveId: unicome-oauth
-    unicome-cms:
-      sensitiveHeaders:
-      custom-sensitive-headers: true
+      stripPrefix: false # 不去除路由前缀
+    unicome-config:
+      path: /config/**
+      service-id: unicome-config
       stripPrefix: false
-      path: /cms/**
-      serviveId: unicome-cms
+    unicome-data:
+      path: /data/**
+      service-id: unicome-data
+      stripPrefix: false
 
 # Security
 security:
   ignored: /favicon.ico,/js/**,/css/**,/webjars/**
   basic:
     enabled: false
-  # Security OAuth2
-  oauth2:
+  oauth2: # spring security oauth2
     sso:
-      loginPath: /login
+      login-path: /login # 单点登录地址
     client:
-      accessTokenUri: http://unicome-oauth/oauth2/oauth/token
-      userAuthorizationUri: /oauth2/oauth/authorize
-      clientId: admin
-      clientSecret: admin
+      access-token-uri: http://unicome-oauth/auth/oauth/token
+      user-authorization-uri: /auth/oauth/authorize # 需要在程序中处理
+      client-id: admin
+      client-secret: abc123_
     resource:
-      userInfoUri: http://unicome-oauth/oauth2/oauth/user
+      user-info-uri: http://unicome-oauth/auth/oauth/user
 
-#Eureka
 eureka:
-  instance:
-#    prefer-ip-address: true
-    hostname: localhost
-    port: 8761
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-#    register-with-eureka: true # 向服务中心注册自己
-#    fetch-registry: true # 检索服务
+  instance: # 当前Eureka Instance实例配置信息
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    hostname: localhost # 服务注册中心实例的主机名
+  client: # 客户端配置
+    register-with-eureka: true # 是否向服务注册中心注册自己，单机设置为false，集群设置为true
+    fetch-registry: true # 是否检索服务，服务注册中心维护实例，不需要去检索其他服务
+    service-url.defaultZone: http://localhost:8761/eureka/eureka
 
+# log
 logging:
-  level.org.springframework.security: DEBUG
-
-#debug: true
+  level:
+    org.springframework.cloud: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n"

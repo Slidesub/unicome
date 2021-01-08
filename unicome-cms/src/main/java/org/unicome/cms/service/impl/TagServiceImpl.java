@@ -24,7 +24,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> list(int index, int size) {
-        Pageable pageable = PageRequest.of(index, size, new Sort(Sort.Direction.DESC, new String[] {"updateDate", "createDate"}));
+        Pageable pageable = PageRequest.of(index, size, Sort.by(Sort.Direction.DESC, new String[] {"updateDate", "createDate"}));
         Query query = new Query();
         query.with(pageable);
         return mongoTemplate.find(query, Tag.class);

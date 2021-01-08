@@ -20,7 +20,7 @@ public class VerifyCodeController {
     @Autowired
     SecurityConstants securityConstants;
 
-    @GetMapping("/img/code")
+    @GetMapping("/verify/code")
     public void verifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         imgVerifyCodeGenerator.setLength(3);

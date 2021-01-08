@@ -22,8 +22,7 @@ import org.unicome.oauth.security.auth.mobile.MobilePasswordAuthenticationFilter
 import org.unicome.oauth.security.auth.mobile.MobilePasswordAuthenticationProvider;
 import org.unicome.oauth.security.auth.sms.SmsAuthenticationFilter;
 import org.unicome.oauth.security.constant.SecurityConstants;
-import org.unicome.oauth.security.repository.MongoTokenRepositoryImpl;
-import org.unicome.oauth.security.service.UserService;
+import org.unicome.oauth.security.user.UserDetailsServiceImpl;
 
 import javax.annotation.Resource;
 
@@ -31,7 +30,7 @@ import javax.annotation.Resource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Resource
     private FindByIndexNameSessionRepository sessionRepository;
@@ -55,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
                 .tokenRepository(tokenRepository()) // 持久化
                 .tokenValiditySeconds(securityConstants.getRememberMeTimeout()) // 过期时间，单位s
-                .userDetailsService(username -> userService.loadUserByUsername(username)) // 自动登录
+                .userDetailsService(username -> userDetailsService.loadUserBy("username", username)) // 自动登录
             // session策略
             .and()
                 .sessionManagement()
@@ -85,19 +84,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 用户名+密码
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(username -> userService.loadUserByUsername(username));
+        daoAuthenticationProvider.setUserDetailsService(username -> userDetailsService.loadUserBy("username",
+                username));
         auth.authenticationProvider(daoAuthenticationProvider);
 
         // 邮箱+密码
         EmailPasswordAuthenticationProvider emailPasswordAuthenticationProvider = new EmailPasswordAuthenticationProvider();
         emailPasswordAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        emailPasswordAuthenticationProvider.setUserDetailsService(email -> userService.loadUserByEmail(email));
+        emailPasswordAuthenticationProvider.setUserDetailsService(email -> userDetailsService.loadUserBy("email",
+                email));
         auth.authenticationProvider(emailPasswordAuthenticationProvider);
 
         // 手机号+密码
         MobilePasswordAuthenticationProvider mobilePasswordAuthenticationProvider = new MobilePasswordAuthenticationProvider();
 //        mobilePasswordAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        mobilePasswordAuthenticationProvider.setUserDetailsService(mobile -> userService.loadUserByMobile(mobile));
+        mobilePasswordAuthenticationProvider.setUserDetailsService(mobile -> userDetailsService.loadUserBy(
+                "mobile", mobile));
         auth.authenticationProvider(mobilePasswordAuthenticationProvider);
 
         // 手机号+短信验证码
@@ -161,7 +163,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 设置加密
+     * 设置加密方法
      * @return
      */
     @Bean

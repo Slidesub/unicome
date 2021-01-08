@@ -1,0 +1,2 @@
+spring:
+    profiles.active: native, dev # 指定使用本地文件, dev

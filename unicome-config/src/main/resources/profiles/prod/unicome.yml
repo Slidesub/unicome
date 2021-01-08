@@ -1,0 +1,26 @@
+# actuator
+info:
+    app.name: ${spring.application.name}
+    company.name: unicome.org
+    build:
+        groupId: "@project.groupId@"
+        artifactId: "@project.artifactId@"
+        version: "@project.version@"
+
+# eureka
+eureka: # 详情查看 spring-configuration-metadata.json
+    instance: # 当前 Eureka Instance 实例配置信息
+        instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+        hostname: 172.26.3.33 # 服务注册中心实例的主机名
+    client: # 客户端配置
+        register-with-eureka: true # 是否向服务注册中心注册自己, 单机设置为 false, 集群设置为 true
+        fetch-registry: true # 是否检索服务, 服务注册中心维护实例, 不需要去检索其他服务
+        service-url.defaultZone: http://172.26.3.33:8761/eureka/eureka
+
+# log
+logging:
+    level:
+        org.springframework.cloud: INFO
+    pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+        file: "%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n"

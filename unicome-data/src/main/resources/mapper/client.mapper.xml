@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.unicome.data.domain.mysql.client.ClientDao">
+    <resultMap id="baseClientMap" type="org.unicome.data.domain.mysql.client.Client">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="client_id" jdbcType="VARCHAR" property="clientId"/>
+        <result column="client_secret" jdbcType="VARCHAR" property="clientSecret"/>
+        <result column="client_name" jdbcType="VARCHAR" property="clientName"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="enabled" jdbcType="TINYINT" property="remark"/>
+        <result column="authorities" jdbcType="VARCHAR" property="authorities"/>
+        <result column="scopes" jdbcType="VARCHAR" property="scopes"/>
+        <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds"/>
+        <result column="authorized_grant_types" jdbcType="VARCHAR" property="authorizedGrantTypes"/>
+        <result column="registered_redirect_uris" jdbcType="VARCHAR" property="registeredRedirectUris"/>
+        <result column="auto_approve_scopes" jdbcType="VARCHAR" property="autoApproveScopes"/>
+        <result column="access_token_validity_seconds" jdbcType="INTEGER" property="accessTokenValiditySeconds"/>
+        <result column="refresh_token_validity_seconds" jdbcType="INTEGER" property="refreshTokenValiditySeconds"/>
+        <result column="created_by" jdbcType="INTEGER" property="createdBy"/>
+        <result column="updated_by" jdbcType="INTEGER" property="updatedBy"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+</mapper>

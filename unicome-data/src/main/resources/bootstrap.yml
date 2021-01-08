@@ -1,0 +1,18 @@
+spring:
+#    profiles.active: dev # application.yml 即为测试环境配置
+    cloud:
+        config: # 必须放在bootstrap.yml中，否则不起作用
+            uri: http://127.0.0.1:9000/config
+            name: unicome-data,unicome
+            profile: dev # "name-profile-label"
+        fail-fast: true # 失败快速响应
+    application.name: unicome-data
+
+# logback
+logging:
+    config: classpath:logback-spring.xml
+    level:
+        org.springframework.cloud: DEBUG
+#        org.unicome.data.resource.controller: INFO
+    path: ./logs
+    name: ${spring.application.name}

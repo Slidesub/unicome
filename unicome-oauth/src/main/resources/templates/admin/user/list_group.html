@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+    <div>当前用户:
+        <span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}"></span>
+    </div>
+    <div>
+        <p><a th:href="@{'/user/' + ${userId}} + '/group/edit'">新增</a></p>
+        <p>
+            <ul th:each="userGroup : ${userGroups}">
+                <li th:text="${userGroup.id}"></li>
+                <li th:text="${userGroup.userName}"></li>
+                <li th:text="${userGroup.groupId}"></li>
+                <li th:text="${userGroup.groupName}"></li>
+                <li th:text="${userGroup.remark}"></li>
+                <li th:text="${userGroup.enabled}"></li>
+                <li th:text="${userGroup.createDate}"></li>
+                <li th:text="${userGroup.updateDate}"></li>
+            </ul>
+        </p>
+    </div>
+</body>
+</html>

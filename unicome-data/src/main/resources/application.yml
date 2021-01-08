@@ -1,0 +1,39 @@
+server:
+    port: 9100
+    servlet.context-path: /data
+
+# spring
+spring:
+#    application.name: unicome-data
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/UNICOME_BASIC
+        username: root
+        password: 123456
+    jpa.show-sql: true
+    data.mongodb.uri: mongodb://localhost:27017/UNICOME_BASIC
+
+# mybatis
+mybatis:
+    mapper-locations: classpath:mapper/*.mapper.xml
+    type-aliases-package: org.unicome.data.domain.mysql
+    configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 显示sql
+
+# actuator
+info:
+    app.name: ${spring.application.name}
+    company.name: unicome.org
+    build:
+        groupId: "@project.groupId@"
+        artifactId: "@project.artifactId@"
+        version: "@project.version@"
+
+# eureka
+eureka: # 详情查看 spring-configuration-metadata.json
+    instance: # 当前 Eureka Instance 实例配置信息
+        instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+        hostname: localhost # 服务注册中心实例的主机名
+    client: # 客户端配置
+        register-with-eureka: true # 是否向服务注册中心注册自己, 单机设置为 false, 集群设置为 true
+        fetch-registry: true # 是否检索服务, 服务注册中心维护实例, 不需要去检索其他服务
+        service-url.defaultZone: http://localhost:8761/eureka/eureka

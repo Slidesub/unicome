@@ -54,7 +54,7 @@ public class SmsAuthenticationProvider implements AuthenticationProvider, Initia
             try {
                 user = this.retrieveUser(username, (SmsAuthenticationToken)authentication);
             } catch (UsernameNotFoundException var6) {
-                this.logger.debug("User '" + username + "' not found");
+                this.logger.debug("UserDO '" + username + "' not found");
                 if (this.hideUserNotFoundExceptions) {
                     throw new BadCredentialsException(this.messages.getMessage("SmsAuthenticationProvider.badCredentials", "Bad credentials"));
                 }
@@ -200,8 +200,8 @@ public class SmsAuthenticationProvider implements AuthenticationProvider, Initia
 
         public void check(UserDetails user) {
             if (!user.isCredentialsNonExpired()) {
-                SmsAuthenticationProvider.this.logger.debug("User account credentials have expired");
-                throw new CredentialsExpiredException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.credentialsExpired", "User credentials have expired"));
+                SmsAuthenticationProvider.this.logger.debug("UserDO account credentials have expired");
+                throw new CredentialsExpiredException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.credentialsExpired", "UserDO credentials have expired"));
             }
         }
     }
@@ -212,14 +212,14 @@ public class SmsAuthenticationProvider implements AuthenticationProvider, Initia
 
         public void check(UserDetails user) {
             if (!user.isAccountNonLocked()) {
-                SmsAuthenticationProvider.this.logger.debug("User account is locked");
-                throw new LockedException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.locked", "User account is locked"));
+                SmsAuthenticationProvider.this.logger.debug("UserDO account is locked");
+                throw new LockedException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.locked", "UserDO account is locked"));
             } else if (!user.isEnabled()) {
-                SmsAuthenticationProvider.this.logger.debug("User account is disabled");
-                throw new DisabledException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.disabled", "User is disabled"));
+                SmsAuthenticationProvider.this.logger.debug("UserDO account is disabled");
+                throw new DisabledException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.disabled", "UserDO is disabled"));
             } else if (!user.isAccountNonExpired()) {
-                SmsAuthenticationProvider.this.logger.debug("User account is expired");
-                throw new AccountExpiredException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.expired", "User account has expired"));
+                SmsAuthenticationProvider.this.logger.debug("UserDO account is expired");
+                throw new AccountExpiredException(SmsAuthenticationProvider.this.messages.getMessage("SmsAuthenticationProvider.expired", "UserDO account has expired"));
             }
         }
     }

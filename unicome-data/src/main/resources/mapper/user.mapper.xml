@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.unicome.data.domain.mysql.user.UserDao">
+    <resultMap id="baseUserMap" type="org.unicome.data.domain.mysql.user.User">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="enabled" jdbcType="TINYINT" property="enabled"/>
+        <result column="account_non_expired" jdbcType="TINYINT" property="accountNonExpired"/>
+        <result column="credentials_non_expired" jdbcType="TINYINT" property="credentialsNonExpired"/>
+        <result column="account_non_locked" jdbcType="TINYINT" property="accountNonLocked"/>
+        <result column="created_by" jdbcType="INTEGER" property="createdBy"/>
+        <result column="updated_by" jdbcType="INTEGER" property="updatedBy"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+    <!-- -->
+    <resultMap id="userMap" type="org.unicome.data.domain.mysql.user.User" extends="baseUserMap">
+        <collection property="groups" select="associateGroup" column="id"/> <!-- id为外键, 对应`USER_GROUP`的user_id -->
+        <collection property="roles" select="associateRole" column="id"/> <!-- id为外键, 对应`USER_ROLE`的user_id -->
+    </resultMap>
+    <select id="associateGroup" parameterType="Integer"
+            resultMap="org.unicome.data.domain.mysql.group.GroupDao.groupMap">
+        SELECT g.* FROM `GROUP` AS g, `USER_GROUP` AS ug WHERE g.id = ug.group_id AND ug.user_id = #{id}
+    </select>
+    <select id="associateRole" parameterType="Integer"
+            resultMap="org.unicome.data.domain.mysql.role.RoleDao.roleMap">
+        SELECT r.* FROM `ROLE` AS r, `USER_ROLE` AS ur WHERE r.id = ur.role_id AND ur.user_id = #{id}
+    </select>
+    <!-- -->
+    <sql id="allColumn">
+        ${alias}.id, ${alias}.username, ${alias}.nickname,
+        ${alias}.mobile, ${alias}.email, ${alias}.password, ${alias}.enabled,
+        ${alias}.account_non_expired, ${alias}.credentials_non_expired,
+        ${alias}.account_non_locked, ${alias}.create_date, ${alias}.update_date
+    </sql>
+</mapper>
