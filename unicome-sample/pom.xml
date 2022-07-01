@@ -18,7 +18,7 @@
 
     <properties>
         <hive.version>1.2.1</hive.version>
-        <hadoop.version>1.2.1</hadoop.version>
+        <hadoop.version>2.7.0</hadoop.version>
         <druid.version>1.1.17</druid.version>
         <lombok.version>1.18.12</lombok.version>
     </properties>
